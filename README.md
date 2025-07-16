@@ -4,195 +4,332 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerador de Orçamento - Posto de Molas São Bento</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #007bff; /* Azul primário */
+            --secondary-color: #28a745; /* Verde para botões de sucesso */
+            --danger-color: #dc3545; /* Vermelho para botões de remoção */
+            --info-color: #17a2b8; /* Azul-ciano para salvar PDF */
+            --bg-color: #f8f9fa; /* Fundo claro */
+            --card-bg: #ffffff; /* Fundo dos cards */
+            --text-color: #343a40; /* Cor de texto principal */
+            --border-color: #e9ecef; /* Cor da borda */
+            --shadow-light: rgba(0, 0, 0, 0.1);
+            --shadow-medium: rgba(0, 0, 0, 0.15);
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', Arial, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 0; /* Remove default padding */
-            margin: 0; /* Remove default margin */
-            background-color: #f4f4f4;
-            min-height: 100vh; /* Make body at least viewport height */
-            width: 100vw; /* Make body viewport width */
-            overflow-x: hidden; /* Prevent horizontal scroll */
+            padding: 0;
+            margin: 0;
+            background-color: var(--bg-color);
+            min-height: 100vh;
+            width: 100vw;
+            overflow-x: hidden;
+            color: var(--text-color);
         }
+
         h1 {
-            margin-top: 20px; /* Add some margin to the top of the title */
-            margin-bottom: 20px;
+            color: var(--primary-color);
+            margin-top: 30px;
+            margin-bottom: 25px;
+            font-weight: 700;
+            text-shadow: 1px 1px 2px var(--shadow-light);
         }
+
         .container {
             display: flex;
-            gap: 20px;
-            width: 95%; /* Adjust to be almost full width */
-            max-width: 1400px; /* Increase max-width for larger screens if desired */
-            margin-bottom: 20px;
-            flex-grow: 1; /* Allow container to grow and take available space */
+            gap: 25px;
+            width: 90%; /* Um pouco mais de margem nas laterais */
+            max-width: 1500px; /* Aumenta a largura máxima */
+            margin-bottom: 30px;
+            flex-grow: 1;
         }
-        .form-section {
+
+        .form-section, .canvas-section {
             flex: 1;
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            overflow-y: auto; /* Add scroll if content is too long */
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px var(--shadow-medium);
+            transition: transform 0.3s ease-in-out;
         }
-        .canvas-section {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+
+        .form-section:hover, .canvas-section:hover {
+            transform: translateY(-5px);
         }
+
         canvas {
-            border: 1px solid #ccc;
+            border: 1px solid var(--border-color);
             background-color: #fcf9e7; /* Cor semelhante ao papel */
-            max-width: 100%; /* Ensure canvas scales down on smaller screens */
-            height: auto; /* Maintain aspect ratio */
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
         }
-        h2 {
-            color: #333;
+
+        h2, h3 {
+            color: var(--primary-color);
             margin-bottom: 20px;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 5px;
+            font-weight: 700;
         }
+
         label {
             display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #555;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-color);
+            font-size: 0.95em;
         }
+
         input[type="text"],
         input[type="number"],
         input[type="email"],
+        input[type="date"],
         select {
-            width: calc(100% - 12px);
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            width: calc(100% - 20px); /* Ajusta padding */
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1em;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            box-shadow: inset 0 1px 3px var(--shadow-light);
+            transition: border-color 0.3s ease;
         }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        input[type="email"]:focus,
+        input[type="date"]:focus,
+        select:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+        }
+
         /* --- NOVOS ESTILOS PARA CAMPOS DE ADIÇÃO DE ITENS --- */
         .add-item-fields {
             display: flex;
-            flex-wrap: wrap; /* Permite que os itens quebrem a linha se não houver espaço */
-            gap: 10px; /* Espaço entre os campos */
-            margin-bottom: 15px;
-            padding: 10px;
-            border: 1px dashed #ccc; /* Borda tracejada para separar os campos de adição */
-            border-radius: 4px;
-            background-color: #f0f0f0;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px dashed var(--primary-color);
+            border-radius: 8px;
+            background-color: rgba(0, 123, 255, 0.05); /* Cor clara do tema */
         }
         .add-item-fields input {
-            flex: 1; /* Faz os inputs ocuparem o espaço disponível */
-            min-width: 80px; /* Largura mínima para inputs menores */
-            margin-bottom: 0; /* Remove a margem inferior padrão dos inputs */
+            flex: 1;
+            min-width: 90px;
+            margin-bottom: 0;
+            background-color: var(--card-bg); /* Input background in item fields */
         }
         .add-item-fields input[type="number"] {
-            width: 80px; /* Largura específica para quantidade e preço unitário */
-            flex: none; /* Não permite que eles se estiquem */
+            width: 90px;
+            flex: none;
         }
         .add-item-fields input[type="text"].desc-input {
-            flex: 3; /* Faz o campo de descrição ser mais largo */
+            flex: 4; /* Mais espaço para descrição */
+            min-width: 150px;
         }
-        /* --- ESTILOS EXISTENTES PARA A LISTA DE ITENS --- */
+
+        /* --- ESTILOS PARA A LISTA DE ITENS --- */
         .item-list-container {
-            margin-top: 10px;
-            margin-bottom: 10px;
-            border-radius: 4px;
-            padding: 10px 0;
+            margin-top: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            padding: 10px;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
         }
         .item-display-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 8px;
-            margin-bottom: 5px;
-            background-color: #f9f9f9;
-            border-radius: 4px;
+            padding: 10px 15px;
+            margin-bottom: 8px;
+            background-color: var(--card-bg);
+            border-radius: 6px;
+            box-shadow: 0 2px 5px var(--shadow-light);
         }
         .item-display-row:last-child {
             margin-bottom: 0;
         }
         .item-display-row span {
-            font-weight: bold;
-            color: #333;
+            font-weight: 600;
+            color: var(--text-color);
             flex-grow: 1;
-            text-align: right;
+            text-align: left;
             padding-right: 10px;
+            font-size: 0.9em;
         }
         .item-display-row .remove-button {
-            background-color: #dc3545;
+            background-color: var(--danger-color);
             color: white;
             border: none;
-            padding: 5px 10px;
-            border-radius: 4px;
+            padding: 6px 12px;
+            border-radius: 50%; /* Botão redondo */
             cursor: pointer;
             font-weight: bold;
-            min-width: 40px;
-            text-align: center;
+            font-size: 0.9em;
+            min-width: 30px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.2s ease, transform 0.2s ease;
         }
         .item-display-row .remove-button:hover {
             background-color: #c82333;
+            transform: scale(1.05);
         }
-        /* --- FIM DOS ESTILOS --- */
 
+        /* --- BOTÕES GERAIS --- */
         button {
-            background-color: #28a745;
+            background-color: var(--secondary-color);
             color: white;
             border: none;
-            padding: 10px 15px;
-            border-radius: 4px;
+            padding: 12px 20px;
+            border-radius: 6px;
             cursor: pointer;
-            margin-top: 10px;
+            margin-top: 15px;
             width: 100%;
+            font-size: 1.1em;
+            font-weight: 700;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+            box-shadow: 0 2px 4px var(--shadow-medium);
         }
         button:hover {
             background-color: #218838;
+            transform: translateY(-2px);
+        }
+
+        /* Totais */
+        .totals-section {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 2px dashed var(--border-color);
         }
         .totals-section div {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             font-weight: bold;
+            font-size: 1.1em;
+            color: var(--text-color);
         }
+
+        /* Grupo de campo de número de orçamento com botão */
         .orcamento-numero-group {
             display: flex;
             align-items: center;
-            margin-bottom: 10px; /* Adjust as needed */
+            margin-bottom: 15px;
         }
         .orcamento-numero-group input {
-            margin-bottom: 0; /* Remove default margin */
+            margin-bottom: 0;
             flex-grow: 1;
         }
         .orcamento-numero-group button {
-            width: auto; /* Allow button to size naturally */
-            padding: 8px 12px; /* Adjust padding */
-            margin-left: 5px; /* Space between input and button */
-            margin-top: 0; /* Remove default margin-top */
-            background-color: #007bff; /* Blue for increment button */
+            width: auto;
+            padding: 8px 15px;
+            margin-left: 10px;
+            margin-top: 0;
+            background-color: var(--primary-color); /* Azul para o botão de incremento */
+            box-shadow: none; /* Remove sombra para o pequeno botão */
         }
         .orcamento-numero-group button:hover {
             background-color: #0056b3;
+            transform: none; /* Remove efeito de transform do botão pequeno */
         }
+
         /* Estilo para o botão de Salvar PDF */
         #savePdfButton {
-            background-color: #17a2b8; /* Cor azul-ciano */
+            background-color: var(--info-color); /* Cor azul-ciano */
         }
         #savePdfButton:hover {
             background-color: #138496;
         }
 
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
+        /* --- Media Queries para Responsividade --- */
+        @media (max-width: 1024px) {
             .container {
                 flex-direction: column;
                 width: 95%;
             }
             .form-section, .canvas-section {
-                flex: none; /* Remove flex-grow on small screens */
-                width: 100%; /* Make them full width */
+                flex: none;
+                width: 100%;
+            }
+            .canvas-section {
+                padding: 15px; /* Reduz padding para canvas em telas menores */
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+                margin-top: 20px;
+                margin-bottom: 20px;
+            }
+            .form-section, .canvas-section {
+                padding: 20px;
+            }
+            input[type="text"], input[type="number"], input[type="email"], input[type="date"], select, button {
+                font-size: 0.95em;
+                padding: 10px;
+            }
+            .add-item-fields input {
+                min-width: 100%; /* Inputs em uma nova linha */
+            }
+            .add-item-fields input[type="number"], .add-item-fields input[type="text"].desc-input {
+                 flex: 1; /* Permite que ocupem mais espaço */
+                 width: 100%;
+            }
+        }
+
+        /* --- Estilos para Impressão (PDF) --- */
+        @media print {
+            body {
+                background-color: white !important;
+                margin: 0;
+                padding: 0;
+                display: block; /* Volta para o display padrão para impressão */
+                overflow: hidden; /* Remove barras de rolagem */
+            }
+            h1, .form-section, .add-item-fields, button, .item-list-container, .orcamento-numero-group {
+                display: none !important; /* Oculta todo o formulário e botões */
+            }
+            .container {
+                display: block; /* Volta para o display padrão */
+                width: auto;
+                max-width: none;
+                margin: 0;
+                padding: 0;
+            }
+            .canvas-section {
+                box-shadow: none !important; /* Remove sombras na impressão */
+                padding: 0 !important;
+                margin: 0 !important;
+                background-color: white !important;
+                display: block; /* Garante que o canvas section é visível */
+                width: 100%; /* Ocupa a largura total da página */
+            }
+            canvas {
+                border: none !important; /* Remove borda do canvas na impressão */
+                box-shadow: none !important;
+                background-color: #fcf9e7 !important; /* Mantém a cor de fundo do "papel" */
+                display: block;
+                width: 100% !important; /* Tenta preencher a largura da página de impressão */
+                height: auto !important; /* Mantém proporção */
+                page-break-after: always; /* Garante que o canvas seja uma página separada */
             }
         }
     </style>
@@ -208,7 +345,6 @@
                 <input type="text" id="numeroOrcamento" value="2894">
                 <button onclick="incrementOrcamento()">+</button>
             </div>
-
 
             <label for="dataOrcamento">Data:</label>
             <input type="date" id="dataOrcamento" value="2025-07-16">
@@ -266,7 +402,6 @@
             </div>
             <button onclick="addServico()">Adicionar Serviço</button>
 
-            <button onclick="drawCanvas()">Gerar Orçamento no Canvas</button>
             <button id="savePdfButton" onclick="saveCanvasAsPdf()">Salvar PDF</button>
         </div>
 
@@ -315,7 +450,7 @@
                 `;
                 pecasContainer.appendChild(row);
             });
-            drawCanvas(); // Always redraw the canvas after updating the list
+            drawCanvas(); // Sempre redesenha o canvas após atualizar a lista
         }
 
         function addPeca() {
@@ -356,7 +491,7 @@
                 `;
                 servicosContainer.appendChild(row);
             });
-            drawCanvas(); // Always redraw the canvas after updating the list
+            drawCanvas(); // Sempre redesenha o canvas após atualizar a lista
         }
 
         function addServico() {
@@ -401,16 +536,20 @@
             drawCanvas();
 
             // Abre a janela de impressão do navegador
-            // Na janela de impressão, o usuário pode selecionar "Salvar como PDF"
+            // A `@media print` no CSS cuidará de mostrar apenas o canvas
             window.print();
         }
 
+        // Adiciona um listener para atualizar o canvas quando os dados do cliente/veículo mudam
+        document.querySelectorAll('#numeroOrcamento, #dataOrcamento, #nomeCliente, #enderecoCliente, #cidadeCliente, #ufCliente, #emailCliente, #telCliente, #tipoVeiculo, #corVeiculo, #placaVeiculo, #cidadeVeiculo').forEach(input => {
+            input.addEventListener('input', drawCanvas);
+        });
 
         // Chama as funções de renderização no carregamento para exibir os dados iniciais
         document.addEventListener('DOMContentLoaded', () => {
             renderPecas();
             renderServicos();
-            drawCanvas(); // Ensure canvas is drawn on load with initial data
+            drawCanvas(); // Garante que o canvas seja desenhado no carregamento com os dados iniciais
         });
 
         // Função para quebrar texto (permanece a mesma)
