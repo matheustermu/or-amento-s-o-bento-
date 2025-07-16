@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -295,8 +295,14 @@
             }
         }
 
-        /* --- Estilos para Impressão (PDF) --- */
+        /* --- Estilos para Impressão (PDF) - Otimizados para uma única página --- */
         @media print {
+            /* Força o conteúdo a caber em uma página e remove margens padrão */
+            @page {
+                size: A4 portrait; /* Ou Letter portrait, dependendo da região */
+                margin: 0; /* Remove todas as margens da página */
+            }
+
             body {
                 background-color: white !important;
                 margin: 0;
@@ -309,7 +315,7 @@
             }
             .container {
                 display: block; /* Volta para o display padrão */
-                width: auto;
+                width: 100%; /* Ocupa a largura total da página */
                 max-width: none;
                 margin: 0;
                 padding: 0;
@@ -320,19 +326,20 @@
                 margin: 0 !important;
                 background-color: white !important;
                 display: block; /* Garante que o canvas section é visível */
-                width: 100%; /* Ocupa a largura total da página */
+                width: 100%; /* Ocupa a largura total da página disponível */
+                height: 100vh; /* Tenta forçar a altura da viewport de impressão */
+                overflow: hidden; /* Garante que nada transborde */
             }
             canvas {
                 border: none !important; /* Remove borda do canvas na impressão */
                 box-shadow: none !important;
                 background-color: #fcf9e7 !important; /* Mantém a cor de fundo do "papel" */
                 display: block;
-                /* As dimensões do canvas são definidas diretamente no elemento HTML
-                   e não devem ser sobrescritas aqui para manter a proporção na impressão.
-                   Apenas garantimos que ele ocupe o espaço disponível. */
-                width: 100% !important;
-                height: auto !important;
-                page-break-after: always; /* Garante que o canvas seja uma página separada */
+                width: 100vw !important; /* Tenta usar a largura total da viewport de impressão */
+                height: 100vh !important; /* Tenta usar a altura total da viewport de impressão */
+                object-fit: contain; /* Redimensiona o canvas para caber na página sem cortar */
+                page-break-after: avoid; /* Evita quebras de página depois do canvas */
+                page-break-before: avoid; /* Evita quebras de página antes do canvas */
             }
         }
     </style>
