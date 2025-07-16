@@ -657,6 +657,7 @@
             currentY += 60; // Mais espaço
 
             // --- Cabeçalho da Tabela para Itens ---
+               <p style="text-align: center;">Peças</p>
             ctx.font = `bold ${baseFontSize + 2}px Arial`; // Agora 22px
             ctx.fillText('QUANT.', marginX, currentY);
             ctx.fillText('UNID.', marginX + 120, currentY); // Ajuste de posição
@@ -690,6 +691,8 @@
             currentY += 40; // Mais espaço
 
             // --- Cabeçalho da Tabela para Serviços ---
+            <p style="text-align: center;">Serviços</p>
+
             ctx.font = `bold ${baseFontSize + 2}px Arial`;
             ctx.fillText('QUANT.', marginX, currentY);
             ctx.fillText('DESCRIÇÃO', marginX + 240, currentY); // Ajuste de posição
