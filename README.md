@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -88,10 +88,7 @@
             font-size: 0.95em;
         }
 
-        input[type="text"],
-        input[type="number"],
-        input[type="email"],
-        input[type="date"],
+        input:where([type="text"], [type="number"], [type="email"], [type="date"]),
         select {
             width: calc(100% - 20px); /* Ajusta padding */
             padding: 10px;
@@ -105,10 +102,7 @@
             transition: border-color 0.3s ease;
         }
 
-        input[type="text"]:focus,
-        input[type="number"]:focus,
-        input[type="email"]:focus,
-        input[type="date"]:focus,
+        input:where([type="text"], [type="number"], [type="email"], [type="date"]):focus,
         select:focus {
             border-color: var(--primary-color);
             outline: none;
@@ -132,11 +126,11 @@
             margin-bottom: 0;
             background-color: var(--card-bg); /* Input background in item fields */
         }
-        .add-item-fields input[type="number"] {
+        .add-item-fields input:where([type="number"]) {
             width: 90px;
             flex: none;
         }
-        .add-item-fields input[type="text"].desc-input {
+        .add-item-fields input:where([type="text"]).desc-input {
             flex: 4; /* Mais espaço para descrição */
             min-width: 150px;
         }
@@ -282,14 +276,14 @@
             .form-section, .canvas-section {
                 padding: 20px;
             }
-            input[type="text"], input[type="number"], input[type="email"], input[type="date"], select, button {
+            input:where([type="text"], [type="number"], [type="email"], [type="date"]), select, button {
                 font-size: 0.95em;
                 padding: 10px;
             }
             .add-item-fields input {
                 min-width: 100%; /* Inputs em uma nova linha */
             }
-            .add-item-fields input[type="number"], .add-item-fields input[type="text"].desc-input {
+            .add-item-fields input:where([type="number"]), .add-item-fields input:where([type="text"]).desc-input {
                 flex: 1; /* Permite que ocupem mais espaço */
                 width: 100%;
             }
@@ -352,51 +346,51 @@
 
             <label for="numeroOrcamento">Nº Orçamento:</label>
             <div class="orcamento-numero-group">
-                <input type="text" id="numeroOrcamento" value="2894" placeholder="Ex: 2894">
+                <input type="text" id="numeroOrcamento" placeholder="Ex: 2894">
                 <button onclick="incrementOrcamento()">+</button>
             </div>
 
             <label for="dataOrcamento">Data:</label>
-            <input type="date" id="dataOrcamento" value="2025-07-16">
+            <input type="date" id="dataOrcamento">
 
             <h3>Dados do Cliente</h3>
             <label for="nomeCliente">Nome:</label>
-            <input type="text" id="nomeCliente" value="Transportadora Alfa Ltda." placeholder="Ex: João da Silva ou Empresa XYZ">
+            <input type="text" id="nomeCliente" placeholder="Ex: João da Silva ou Empresa XYZ">
 
             <label for="enderecoCliente">Endereço:</label>
-            <input type="text" id="enderecoCliente" value="Rua das Molas, 1500 - Indústria" placeholder="Ex: Rua Exemplo, 123 - Centro">
+            <input type="text" id="enderecoCliente" placeholder="Ex: Rua Exemplo, 123 - Centro">
 
             <label for="cidadeCliente">Cidade:</label>
-            <input type="text" id="cidadeCliente" value="Ponta Grossa" placeholder="Ex: Curitiba">
+            <input type="text" id="cidadeCliente" placeholder="Ex: Curitiba">
 
             <label for="ufCliente">UF:</label>
-            <input type="text" id="ufCliente" value="PR" maxlength="2" placeholder="Ex: PR">
+            <input type="text" id="ufCliente" maxlength="2" placeholder="Ex: PR">
 
             <label for="emailCliente">E-mail:</label>
-            <input type="email" id="emailCliente" value="contato@alfa.com.br" placeholder="Ex: cliente@email.com">
+            <input type="email" id="emailCliente" placeholder="Ex: cliente@email.com">
 
             <label for="telCliente">Telefone:</label>
-            <input type="text" id="telCliente" value="(42) 99934-3158" placeholder="Ex: (42) 99999-9999">
+            <input type="text" id="telCliente" placeholder="Ex: (42) 99999-9999">
 
             <h3>Dados do Veículo</h3>
             <label for="tipoVeiculo">Caminhão / Caminhonete:</label>
-            <input type="text" id="tipoVeiculo" value="Caminhão Scania R450" placeholder="Ex: Scania P360 ou Ford Ranger">
+            <input type="text" id="tipoVeiculo" placeholder="Ex: Scania P360 ou Ford Ranger">
 
             <label for="corVeiculo">Cor:</label>
-            <input type="text" id="corVeiculo" value="Azul Metálico" placeholder="Ex: Branco ou Preto">
+            <input type="text" id="corVeiculo" placeholder="Ex: Branco ou Preto">
 
             <label for="placaVeiculo">Placa:</label>
-            <input type="text" id="placaVeiculo" value="ABC1D20" placeholder="Ex: XYZ9E87">
+            <input type="text" id="placaVeiculo" placeholder="Ex: XYZ9E87">
 
             <label for="cidadeVeiculo">Cidade Veículo:</label>
-            <input type="text" id="cidadeVeiculo" value="São Paulo" placeholder="Ex: São Paulo">
+            <input type="text" id="cidadeVeiculo" placeholder="Ex: São Paulo">
 
             <h3>Peças</h3>
             <div class="add-item-fields">
-                <input type="number" id="newPecaQuant" value="2" min="0.1" step="0.1" placeholder="Quant. (Ex: 2)">
+                <input type="number" id="newPecaQuant" value="1" min="0.1" step="0.1" placeholder="Quant. (Ex: 1)">
                 <input type="text" id="newPecaUnid" value="UNID." placeholder="Unid. (Ex: UNID., MT, KG)">
-                <input type="text" id="newPecaProduto" class="desc-input" value="Mola Dianteira - Semiacabada" placeholder="Descrição da Peça (Ex: Mola Parabólica)">
-                <input type="number" id="newPecaPrecoUnit" value="280.50" min="0" step="0.01" placeholder="Preço Unit. (Ex: 150.00)">
+                <input type="text" id="newPecaProduto" class="desc-input" placeholder="Descrição da Peça (Ex: Mola Parabólica)">
+                <input type="number" id="newPecaPrecoUnit" value="0.00" min="0" step="0.01" placeholder="Preço Unit. (Ex: 150.00)">
             </div>
             <div id="pecasContainer" class="item-list-container">
             </div>
@@ -405,8 +399,8 @@
             <h3>Serviços</h3>
             <div class="add-item-fields">
                 <input type="number" id="newServicoQuant" value="1" min="0.1" step="0.1" placeholder="Quant. (Ex: 1)">
-                <input type="text" id="newServicoProduto" class="desc-input" value="Alinhamento e Balanceamento Completo" placeholder="Descrição do Serviço (Ex: Troca de Amortecedores)">
-                <input type="number" id="newServicoPreco" value="180.00" min="0" step="0.01" placeholder="Preço Total (Ex: 300.00)">
+                <input type="text" id="newServicoProduto" class="desc-input" placeholder="Descrição do Serviço (Ex: Troca de Amortecedores)">
+                <input type="number" id="newServicoPreco" value="0.00" min="0" step="0.01" placeholder="Preço Total (Ex: 300.00)">
             </div>
             <div id="servicosContainer" class="item-list-container">
             </div>
@@ -540,14 +534,10 @@
             drawCanvas(); // Redraw canvas to reflect the new number
         }
 
-        // Função para salvar o canvas como PDF
+        // Função para salvar o canvas como PDF (via janela de impressão)
         function saveCanvasAsPdf() {
-            // Desenha o canvas uma última vez para garantir que está atualizado
-            drawCanvas();
-
-            // Abre a janela de impressão do navegador
-            // A `@media print` no CSS cuidará de mostrar apenas o canvas
-            window.print();
+            drawCanvas(); // Desenha o canvas uma última vez para garantir que está atualizado
+            window.print(); // Abre a janela de impressão
         }
 
         // Adiciona um listener para atualizar o canvas quando os dados do cliente/veículo mudam
@@ -557,6 +547,13 @@
 
         // Chama as funções de renderização no carregamento para exibir os dados iniciais
         document.addEventListener('DOMContentLoaded', () => {
+            // Define a data atual automaticamente
+            const today = new Date();
+            const day = String(today.getDate()).padStart(2, '0');
+            const month = String(today.getMonth() + 1).padStart(2, '0'); // Mês começa do 0
+            const year = today.getFullYear();
+            document.getElementById('dataOrcamento').value = `${year}-${month}-${day}`;
+
             renderPecas();
             renderServicos();
             drawCanvas(); // Garante que o canvas seja desenhado no carregamento com os dados iniciais
@@ -601,29 +598,29 @@
             ctx.lineWidth = 1;
 
             // Definindo um tamanho de fonte base e um lineHeight para todos os textos
-            // Aumentei os valores ainda mais para esta versão
-            const baseFontSize = 20; // Agora 20px
-            const baseLineHeight = 35; // Agora 35px
-            let currentY = 80; // Margem superior um pouco maior
-            const marginX = 80; // Margem lateral um pouco maior
+            const baseFontSize = 20;
+            const baseLineHeight = 35;
+            let currentY = 80;
+            const marginX = 80;
 
             // --- Cabeçalho ---
-            ctx.font = 'bold 36px Arial'; // Aumentado para 36px
+            ctx.font = 'bold 36px Arial';
             ctx.fillText('POSTO DE MOLAS SÃO BENTO', marginX, currentY);
             ctx.textAlign = 'right';
             ctx.fillText('ORÇAMENTO', canvas.width - marginX, currentY);
             ctx.textAlign = 'left';
-            currentY += 50; // Mais espaço
+            currentY += 50;
 
-            ctx.font = 'bold 26px Arial'; // Aumentado para 26px
+            ctx.font = 'bold 26px Arial';
             ctx.fillText('PEÇAS E SERVIÇOS', marginX, currentY);
             ctx.textAlign = 'right';
-            ctx.fillText(`Nº ${document.getElementById('numeroOrcamento').value}`, canvas.width - marginX, currentY);
+            const numeroOrcamento = document.getElementById('numeroOrcamento').value.trim();
+            ctx.fillText(`Nº ${numeroOrcamento === '' ? 'Não encontrado' : numeroOrcamento}`, canvas.width - marginX, currentY);
             ctx.textAlign = 'left';
-            currentY += 60; // Mais espaço
+            currentY += 60;
 
             // --- Informações da Empresa ---
-            ctx.font = `${baseFontSize}px Arial`; // Agora 20px
+            ctx.font = `${baseFontSize}px Arial`;
             ctx.fillText('Suspensão de Caminhão e Caminhonete', marginX, currentY);
             currentY += baseLineHeight - 5;
             ctx.fillText('Alinhamento e Balanceamento - Suspensão a Ar', marginX, currentY);
@@ -634,40 +631,52 @@
             ctx.textAlign = 'left';
             currentY += baseLineHeight - 5;
             ctx.fillText('postodemolassaobento@gmail.com - Av. Souza Naves, 4250 - CEP 84064-000 - Ponta Grossa / PR', marginX, currentY);
-            currentY += 60; // Mais espaço
+            currentY += 60;
 
             // --- Detalhes do Cliente e Veículo ---
-            ctx.font = `bold ${baseFontSize + 4}px Arial`; // Agora 24px
+            ctx.font = `bold ${baseFontSize + 4}px Arial`;
             ctx.fillText('DADOS DO CLIENTE E VEÍCULO', marginX, currentY);
             currentY += baseLineHeight + 10;
-            ctx.font = `${baseFontSize}px Arial`; // Fonte base 20px
-            ctx.fillText(`Nome: ${document.getElementById('nomeCliente').value}`, marginX, currentY);
-            ctx.fillText(`Endereço: ${document.getElementById('enderecoCliente').value}`, marginX + 400, currentY); // Ajuste de posição
+            ctx.font = `${baseFontSize}px Arial`;
+
+            const nomeCliente = document.getElementById('nomeCliente').value.trim();
+            const enderecoCliente = document.getElementById('enderecoCliente').value.trim();
+            const cidadeCliente = document.getElementById('cidadeCliente').value.trim();
+            const ufCliente = document.getElementById('ufCliente').value.trim();
+            const emailCliente = document.getElementById('emailCliente').value.trim();
+            const telCliente = document.getElementById('telCliente').value.trim();
+            const tipoVeiculo = document.getElementById('tipoVeiculo').value.trim();
+            const corVeiculo = document.getElementById('corVeiculo').value.trim();
+            const placaVeiculo = document.getElementById('placaVeiculo').value.trim();
+            const cidadeVeiculo = document.getElementById('cidadeVeiculo').value.trim();
+
+            ctx.fillText(`Nome: ${nomeCliente === '' ? 'Não encontrado' : nomeCliente}`, marginX, currentY);
+            ctx.fillText(`Endereço: ${enderecoCliente === '' ? 'Não encontrado' : enderecoCliente}`, marginX + 400, currentY);
             currentY += baseLineHeight;
-            ctx.fillText(`Cidade/UF: ${document.getElementById('cidadeCliente').value}/${document.getElementById('ufCliente').value}`, marginX, currentY);
-            ctx.fillText(`E-mail: ${document.getElementById('emailCliente').value}`, marginX + 400, currentY); // Ajuste de posição
+            ctx.fillText(`Cidade/UF: ${cidadeCliente === '' ? 'Não encontrado' : cidadeCliente}/${ufCliente === '' ? 'Não encontrado' : ufCliente}`, marginX, currentY);
+            ctx.fillText(`E-mail: ${emailCliente === '' ? 'Não encontrado' : emailCliente}`, marginX + 400, currentY);
             currentY += baseLineHeight;
-            ctx.fillText(`Telefone: ${document.getElementById('telCliente').value}`, marginX, currentY);
+            ctx.fillText(`Telefone: ${telCliente === '' ? 'Não encontrado' : telCliente}`, marginX, currentY);
             currentY += baseLineHeight;
-            ctx.fillText(`Veículo: ${document.getElementById('tipoVeiculo').value}`, marginX, currentY);
-            ctx.fillText(`Cor: ${document.getElementById('corVeiculo').value}`, marginX + 400, currentY); // Ajuste de posição
+            ctx.fillText(`Veículo: ${tipoVeiculo === '' ? 'Não encontrado' : tipoVeiculo}`, marginX, currentY);
+            ctx.fillText(`Cor: ${corVeiculo === '' ? 'Não encontrado' : corVeiculo}`, marginX + 400, currentY);
             currentY += baseLineHeight;
-            ctx.fillText(`Placa: ${document.getElementById('placaVeiculo').value}`, marginX, currentY);
-            ctx.fillText(`Cidade Veículo: ${document.getElementById('cidadeVeiculo').value}`, marginX + 400, currentY); // Ajuste de posição
-            currentY += 60; // Mais espaço
+            ctx.fillText(`Placa: ${placaVeiculo === '' ? 'Não encontrado' : placaVeiculo}`, marginX, currentY);
+            ctx.fillText(`Cidade Veículo: ${cidadeVeiculo === '' ? 'Não encontrado' : cidadeVeiculo}`, marginX + 400, currentY);
+            currentY += 60;
 
             // --- Título "Peças" ---
-            ctx.font = `bold ${baseFontSize + 6}px Arial`; // Fonte maior para o título
+            ctx.font = `bold ${baseFontSize + 6}px Arial`;
             ctx.textAlign = 'center';
             ctx.fillText('PEÇAS', canvas.width / 2, currentY);
-            ctx.textAlign = 'left'; // Reset para o padrão
-            currentY += baseLineHeight + 10; // Espaço após o título
+            ctx.textAlign = 'left';
+            currentY += baseLineHeight + 10;
 
             // --- Cabeçalho da Tabela para Peças ---
-            ctx.font = `bold ${baseFontSize + 2}px Arial`; // Agora 22px
+            ctx.font = `bold ${baseFontSize + 2}px Arial`;
             ctx.fillText('QUANT.', marginX, currentY);
             ctx.fillText('UNID.', marginX + 120, currentY);
-            ctx.fillText('DESCRIÇÃO', marginX + 240, currentY); // Ajuste de posição
+            ctx.fillText('DESCRIÇÃO', marginX + 240, currentY);
             ctx.textAlign = 'right';
             ctx.fillText('VALOR UNIT.', canvas.width - marginX - 240, currentY);
             ctx.fillText('TOTAL', canvas.width - marginX, currentY);
@@ -677,38 +686,38 @@
             ctx.moveTo(marginX, currentY);
             ctx.lineTo(canvas.width - marginX, currentY);
             ctx.stroke();
-            currentY += baseLineHeight + 5; // Mais espaço
+            currentY += baseLineHeight + 5;
 
-            ctx.font = `${baseFontSize}px Arial`; // Agora 20px para os itens
+            ctx.font = `${baseFontSize}px Arial`;
             let totalPecas = 0;
             // Desenha as Peças
             initialPecas.forEach(item => {
                 const itemTotal = item.quant * item.precoUnit;
-                ctx.fillText(item.quant.toFixed(2), marginX, currentY); // Ajustado para QUANT.
-                ctx.fillText(item.unid, marginX + 120, currentY); // Ajustado para UNID.
-                const linesUsed = wrapText(ctx, item.produto, marginX + 240, currentY, 300, baseLineHeight - 5); // Ajuste da largura e posição para DESCRIÇÃO
+                ctx.fillText(item.quant.toFixed(2), marginX, currentY);
+                ctx.fillText(item.unid, marginX + 120, currentY);
+                const linesUsed = wrapText(ctx, item.produto, marginX + 240, currentY, 300, baseLineHeight - 5);
                 ctx.textAlign = 'right';
                 ctx.fillText(formatCurrency(item.precoUnit), canvas.width - marginX - 240, currentY);
                 ctx.fillText(formatCurrency(itemTotal), canvas.width - marginX, currentY);
                 ctx.textAlign = 'left';
                 totalPecas += itemTotal;
-                currentY += (linesUsed * (baseLineHeight - 5)); // Ajusta Y pela quantidade de linhas usadas
+                currentY += (linesUsed * (baseLineHeight - 5));
             });
-            currentY += 40; // Mais espaço
+            currentY += 40;
 
             // --- Título "Serviços" ---
-            ctx.font = `bold ${baseFontSize + 6}px Arial`; // Fonte maior para o título
+            ctx.font = `bold ${baseFontSize + 6}px Arial`;
             ctx.textAlign = 'center';
             ctx.fillText('SERVIÇOS', canvas.width / 2, currentY);
-            ctx.textAlign = 'left'; // Reset para o padrão
-            currentY += baseLineHeight + 10; // Espaço após o título
+            ctx.textAlign = 'left';
+            currentY += baseLineHeight + 10;
 
             // --- Cabeçalho da Tabela para Serviços ---
             ctx.font = `bold ${baseFontSize + 2}px Arial`;
             ctx.fillText('QUANT.', marginX, currentY);
-            ctx.fillText('DESCRIÇÃO', marginX + 240, currentY); // Ajuste de posição
+            ctx.fillText('DESCRIÇÃO', marginX + 240, currentY);
             ctx.textAlign = 'right';
-            ctx.fillText('VALOR UNIT.', canvas.width - marginX - 240, currentY); // Ajuste de posição
+            ctx.fillText('VALOR UNIT.', canvas.width - marginX - 240, currentY);
             ctx.fillText('TOTAL', canvas.width - marginX, currentY);
             ctx.textAlign = 'left';
             currentY += 10;
@@ -718,55 +727,57 @@
             ctx.stroke();
             currentY += baseLineHeight + 5;
 
-            ctx.font = `${baseFontSize}px Arial`; // Agora 20px para os itens
+            ctx.font = `${baseFontSize}px Arial`;
             let totalServicos = 0;
             // Desenha os Serviços
             initialServicos.forEach(item => {
                 const itemTotal = item.quant * item.preco;
                 ctx.fillText(item.quant.toFixed(2), marginX, currentY);
-                const linesUsed = wrapText(ctx, item.produto, marginX + 240, currentY, 400, baseLineHeight - 5); // Largura e lineHeight para descrição
+                const linesUsed = wrapText(ctx, item.produto, marginX + 240, currentY, 400, baseLineHeight - 5);
                 ctx.textAlign = 'right';
                 ctx.fillText(formatCurrency(item.preco), canvas.width - marginX - 240, currentY);
                 ctx.fillText(formatCurrency(itemTotal), canvas.width - marginX, currentY);
                 ctx.textAlign = 'left';
                 totalServicos += itemTotal;
-                currentY += (linesUsed * (baseLineHeight - 5)); // Ajusta Y pela quantidade de linhas usadas
+                currentY += (linesUsed * (baseLineHeight - 5));
             });
-            currentY += 50; // Mais espaço
+            currentY += 50;
 
             // --- Totais ---
-            ctx.font = `bold ${baseFontSize + 6}px Arial`; // Agora 26px
+            ctx.font = `bold ${baseFontSize + 6}px Arial`;
             ctx.textAlign = 'right';
-            ctx.fillText('TOTAL DE PEÇAS:', canvas.width - marginX - 300, currentY); // Ajuste de posição
+            ctx.fillText('TOTAL DE PEÇAS:', canvas.width - marginX - 300, currentY);
             ctx.fillText(formatCurrency(totalPecas), canvas.width - marginX, currentY);
             currentY += baseLineHeight + 15;
 
-            ctx.fillText('TOTAL DE SERVIÇOS:', canvas.width - marginX - 300, currentY); // Ajuste de posição
+            ctx.fillText('TOTAL DE SERVIÇOS:', canvas.width - marginX - 300, currentY);
             ctx.fillText(formatCurrency(totalServicos), canvas.width - marginX, currentY);
             currentY += baseLineHeight + 15;
 
-            ctx.font = 'bold 32px Arial'; // Agora 32px
-            ctx.fillText('TOTAL GERAL:', canvas.width - marginX - 300, currentY); // Ajuste de posição
+            ctx.font = 'bold 32px Arial';
+            ctx.fillText('TOTAL GERAL:', canvas.width - marginX - 300, currentY);
             ctx.fillText(formatCurrency(totalPecas + totalServicos), canvas.width - marginX, currentY);
             currentY += baseLineHeight + 60;
 
             // --- Data do Orçamento ---
-            ctx.font = `${baseFontSize + 4}px Arial`; // Aumentado para 24px
+            ctx.font = `${baseFontSize + 4}px Arial`;
             ctx.textAlign = 'left';
-            ctx.fillText(`Ponta Grossa, ${new Date(document.getElementById('dataOrcamento').value).toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric' })}`, marginX, currentY);
-            currentY += baseLineHeight + 100; // Mais espaço para a linha de assinatura
+            const dataOrcamento = document.getElementById('dataOrcamento').value;
+            const dataFormatada = dataOrcamento ? new Date(dataOrcamento).toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Não encontrada';
+            ctx.fillText(`Ponta Grossa, ${dataFormatada}`, marginX, currentY);
+            currentY += baseLineHeight + 100;
 
             // --- Linha de Assinatura ---
             ctx.beginPath();
-            ctx.moveTo(marginX + 200, currentY); // Posição para a linha
-            ctx.lineTo(canvas.width - marginX - 200, currentY); // Extensão da linha
+            ctx.moveTo(marginX + 200, currentY);
+            ctx.lineTo(canvas.width - marginX - 200, currentY);
             ctx.stroke();
             currentY += 25;
-            ctx.font = `${baseFontSize + 4}px Arial`; // 24px
+            ctx.font = `${baseFontSize + 4}px Arial`;
             ctx.textAlign = 'center';
             ctx.fillText('Assinatura do Responsável', canvas.width / 2, currentY);
 
-            ctx.textAlign = 'left'; // Reset para o padrão
+            ctx.textAlign = 'left';
         }
     </script>
 </body>
