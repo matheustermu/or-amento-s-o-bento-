@@ -13,7 +13,7 @@ function drawCanvas() {
     const infoOffset = 380; // Offset para a segunda coluna de informações
 
     // --- Cabeçalho ---
-    ctx.font = 'bold 36px Arial'; // Aumentado ligeiramente para 36px para o título principal
+    ctx.font = 'bold 36px Arial'; // Aumentado ligeiramente para 30px para o título principal
     ctx.fillText('POSTO DE MOLAS SÃO BENTO', marginX, currentY);
     ctx.textAlign = 'right';
     ctx.font = 'bold 32px Arial'; // Mantido em 32px para "ORÇAMENTO"
