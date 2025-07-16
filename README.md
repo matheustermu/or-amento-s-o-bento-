@@ -50,7 +50,7 @@
             flex-grow: 1;
         }
 
-        .form-section, .canvas-section {
+        .form-section, .canvas-preview {
             flex: 1;
             background-color: var(--card-bg);
             padding: 30px;
@@ -59,17 +59,24 @@
             transition: transform 0.3s ease-in-out;
         }
 
-        .form-section:hover, .canvas-section:hover {
+        .form-section:hover, .canvas-preview:hover {
             transform: translateY(-5px);
         }
 
-        canvas {
+        .canvas-container {
             border: 1px solid var(--border-color);
             background-color: #fcf9e7; /* Cor semelhante ao papel */
             max-width: 100%;
             height: auto;
             border-radius: 8px;
             box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
+            margin-bottom: 20px; /* Espaçamento entre as páginas na visualização */
+        }
+
+        canvas {
+            display: block; /* Remove espaçamento extra abaixo do canvas */
+            width: 100%; /* Ajusta para preencher o container */
+            height: auto;
         }
 
         h2, h3 {
@@ -258,11 +265,11 @@
                 flex-direction: column;
                 width: 95%;
             }
-            .form-section, .canvas-section {
+            .form-section, .canvas-preview {
                 flex: none;
                 width: 100%;
             }
-            .canvas-section {
+            .canvas-preview {
                 padding: 15px; /* Reduz padding para canvas em telas menores */
             }
         }
@@ -273,7 +280,7 @@
                 margin-top: 20px;
                 margin-bottom: 20px;
             }
-            .form-section, .canvas-section {
+            .form-section, .canvas-preview {
                 padding: 20px;
             }
             input:where([type="text"], [type="number"], [type="email"], [type="date"]), select, button {
@@ -289,51 +296,60 @@
             }
         }
 
-        /* --- Estilos para Impressão (PDF) - Otimizados para uma única página --- */
+        /* --- Estilos para Impressão (PDF) - Otimizados para múltiplas páginas --- */
         @media print {
-            /* Força o conteúdo a caber em uma página e remove margens padrão */
             @page {
-                size: A4 portrait; /* Ou Letter portrait, dependendo da região */
-                margin: 0; /* Remove todas as margens da página */
+                size: A4 portrait;
+                margin: 0;
             }
 
             body {
                 background-color: white !important;
                 margin: 0;
                 padding: 0;
-                display: block; /* Volta para o display padrão para impressão */
-                overflow: hidden; /* Remove barras de rolagem */
+                display: block;
+                overflow: hidden;
             }
             h1, .form-section, .add-item-fields, button, .item-list-container, .orcamento-numero-group {
                 display: none !important; /* Oculta todo o formulário e botões */
             }
             .container {
-                display: block; /* Volta para o display padrão */
-                width: 100%; /* Ocupa a largura total da página */
+                display: block;
+                width: 100%;
                 max-width: none;
                 margin: 0;
                 padding: 0;
             }
-            .canvas-section {
-                box-shadow: none !important; /* Remove sombras na impressão */
+            .canvas-preview {
+                box-shadow: none !important;
                 padding: 0 !important;
                 margin: 0 !important;
                 background-color: white !important;
-                display: block; /* Garante que o canvas section é visível */
-                width: 100%; /* Ocupa a largura total da página disponível */
+                display: block;
+                width: 100%;
+                height: auto; /* Deixa a altura ser definida pelo conteúdo */
+            }
+            .canvas-container {
+                border: none !important;
+                box-shadow: none !important;
+                background-color: white !important;
+                margin-bottom: 0 !important; /* Remove margem entre canvases impressos */
+                page-break-after: always; /* Garante que cada canvas começa em uma nova página */
+                position: relative; /* Necessário para o page-break-after funcionar corretamente em alguns casos */
                 height: 100vh; /* Tenta forçar a altura da viewport de impressão */
                 overflow: hidden; /* Garante que nada transborde */
             }
+            .canvas-container:last-child {
+                page-break-after: avoid; /* Não quebra depois da última página */
+            }
             canvas {
-                border: none !important; /* Remove borda do canvas na impressão */
+                border: none !important;
                 box-shadow: none !important;
                 background-color: #fcf9e7 !important; /* Mantém a cor de fundo do "papel" */
                 display: block;
                 width: 100vw !important; /* Tenta usar a largura total da viewport de impressão */
                 height: 100vh !important; /* Tenta usar a altura total da viewport de impressão */
                 object-fit: contain; /* Redimensiona o canvas para caber na página sem cortar */
-                page-break-after: avoid; /* Evita quebras de página depois do canvas */
-                page-break-before: avoid; /* Evita quebras de página antes do canvas */
             }
         }
     </style>
@@ -356,6 +372,9 @@
             <h3>Dados do Cliente</h3>
             <label for="nomeCliente">Nome:</label>
             <input type="text" id="nomeCliente" placeholder="Ex: João da Silva ou Empresa XYZ">
+
+            <label for="cpfCnpjCliente">CPF/CNPJ:</label>
+            <input type="text" id="cpfCnpjCliente" placeholder="Ex: 123.456.789-00 ou 12.345.678/0001-90">
 
             <label for="enderecoCliente">Endereço:</label>
             <input type="text" id="enderecoCliente" placeholder="Ex: Rua Exemplo, 123 - Centro">
@@ -406,44 +425,142 @@
             </div>
             <button onclick="addServico()">Adicionar Serviço</button>
 
+            <h3>Desconto</h3>
+            <label for="descontoValor">Valor do Desconto:</label>
+            <input type="number" id="descontoValor" value="0.00" min="0" step="0.01" placeholder="Ex: 50.00">
+
             <button id="savePdfButton" onclick="saveCanvasAsPdf()">Salvar/Imprimir PDF</button>
         </div>
 
-        <div class="canvas-section">
-            <canvas id="orcamentoCanvas" width="1000" height="1400"></canvas>
-        </div>
+        <div class="canvas-preview" id="canvasPreviewContainer">
+            </div>
     </div>
 
     <script>
-        const canvas = document.getElementById('orcamentoCanvas');
-        const ctx = canvas.getContext('2d');
+        const canvasPreviewContainer = document.getElementById('canvasPreviewContainer');
         const pecasContainer = document.getElementById('pecasContainer');
         const servicosContainer = document.getElementById('servicosContainer');
 
-        // Referências para os novos campos de entrada de peças
+        // Referências para os campos de entrada de peças
         const newPecaQuantInput = document.getElementById('newPecaQuant');
         const newPecaUnidInput = document.getElementById('newPecaUnid');
         const newPecaProdutoInput = document.getElementById('newPecaProduto');
         const newPecaPrecoUnitInput = document.getElementById('newPecaPrecoUnit');
 
-        // Referências para os novos campos de entrada de serviços
+        // Referências para os campos de entrada de serviços
         const newServicoQuantInput = document.getElementById('newServicoQuant');
         const newServicoProdutoInput = document.getElementById('newServicoProduto');
         const newServicoPrecoInput = document.getElementById('newServicoPreco');
 
+        // Referência para o campo de desconto
+        const descontoValorInput = document.getElementById('descontoValor');
 
-        // Dados iniciais para as peças - AGORA VAZIOS
+
+        // Arrays para armazenar as peças e serviços
         const initialPecas = [];
-
-        // Dados iniciais para os serviços - AGORA VAZIOS
         const initialServicos = [];
+
+        // Dimensões do canvas para A4 (aproximadamente 210mm x 297mm a 300dpi)
+        const CANVAS_WIDTH = 1000;
+        const CANVAS_HEIGHT = 1400; // Altura de uma página A4 em pixels (aprox. 300dpi)
+
+        // Margens internas do conteúdo
+        const MARGIN_X = 60; // REDUZIDO
+        const MARGIN_TOP_INITIAL = 60; // REDUZIDO
+        const MARGIN_BOTTOM_PAGE = 60; // REDUZIDO
+        const MAX_CONTENT_HEIGHT_PER_PAGE = CANVAS_HEIGHT - MARGIN_TOP_INITIAL - MARGIN_BOTTOM_PAGE;
+
+        // Altura de texto e espaçamento base
+        const BASE_FONT_SIZE = 18; // REDUZIDO
+        const BASE_LINE_HEIGHT = 28; // REDUZIDO
+        const SMALL_LINE_HEIGHT = BASE_LINE_HEIGHT - 3; // REDUZIDO para itens de lista
+
+
+        let currentPageCtx = null; // Contexto do canvas da página atual
+        let currentPageY = MARGIN_TOP_INITIAL; // Posição Y atual no canvas da página atual
+
+        // Armazena todos os canvases criados
+        let canvases = [];
 
         function formatCurrency(value) {
             return parseFloat(value).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
         }
 
+        // Função para iniciar uma nova página no canvas
+        function startNewPage() {
+            const canvasDiv = document.createElement('div');
+            canvasDiv.className = 'canvas-container';
+            const newCanvas = document.createElement('canvas');
+            newCanvas.width = CANVAS_WIDTH;
+            newCanvas.height = CANVAS_HEIGHT;
+            canvasDiv.appendChild(newCanvas);
+            canvasPreviewContainer.appendChild(canvasDiv);
+
+            currentPageCtx = newCanvas.getContext('2d');
+            currentPageCtx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+            currentPageCtx.fillStyle = '#fcf9e7';
+            currentPageCtx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+            currentPageCtx.fillStyle = '#333';
+            currentPageCtx.strokeStyle = '#555';
+            currentPageCtx.lineWidth = 1;
+
+            canvases.push(newCanvas);
+            currentPageY = MARGIN_TOP_INITIAL; // Reinicia Y para o topo da nova página
+        }
+
+        // Função para quebrar texto em várias linhas e desenhá-lo
+        function drawWrappedText(ctx, text, x, y, maxWidth, lineHeight) {
+            let words = text.split(' ');
+            let line = '';
+            let currentYForLines = y;
+            let linesDrawn = 0;
+
+            for (let n = 0; n < words.length; n++) {
+                let testLine = line + words[n] + ' ';
+                let metrics = ctx.measureText(testLine);
+                let testWidth = metrics.width;
+
+                if (testWidth > maxWidth && n > 0) {
+                    ctx.fillText(line.trim(), x, currentYForLines);
+                    currentYForLines += lineHeight;
+                    linesDrawn++;
+                    line = words[n] + ' ';
+                } else {
+                    line = testLine;
+                }
+            }
+            if (line.trim() !== '') {
+                ctx.fillText(line.trim(), x, currentYForLines);
+                currentYForLines += lineHeight;
+                linesDrawn++;
+            }
+            return linesDrawn * lineHeight; // Retorna a altura total ocupada
+        }
+
+        // Função para calcular a altura que um texto ocuparia
+        function measureWrappedTextHeight(ctx, text, maxWidth, lineHeight) {
+            let words = text.split(' ');
+            let line = '';
+            let lines = 0;
+            if (text.trim() === '') return 0; // Handle empty text
+
+            for (let n = 0; n < words.length; n++) {
+                let testLine = line + words[n] + ' ';
+                let metrics = ctx.measureText(testLine);
+                let testWidth = metrics.width;
+                if (testWidth > maxWidth && n > 0) {
+                    lines++;
+                    line = words[n] + ' ';
+                } else {
+                    line = testLine;
+                }
+            }
+            lines++; // For the last line
+            return lines * lineHeight;
+        }
+
         function renderPecas() {
-            pecasContainer.innerHTML = ''; // Limpa os itens existentes
+            pecasContainer.innerHTML = '';
             initialPecas.forEach((item, index) => {
                 const total = item.quant * item.precoUnit;
                 const row = document.createElement('div');
@@ -454,7 +571,7 @@
                 `;
                 pecasContainer.appendChild(row);
             });
-            drawCanvas(); // Sempre redesenha o canvas após atualizar a lista
+            drawAllCanvases();
         }
 
         function addPeca() {
@@ -469,9 +586,8 @@
             }
 
             initialPecas.push({ quant: quant, unid: unid, produto: produto, precoUnit: precoUnit });
-            renderPecas(); // Re-renderiza a lista de peças
+            renderPecas();
 
-            // Limpa os campos após adicionar
             newPecaQuantInput.value = "1";
             newPecaUnidInput.value = "UNID.";
             newPecaProdutoInput.value = "";
@@ -479,12 +595,12 @@
         }
 
         function removePeca(index) {
-            initialPecas.splice(index, 1); // Remove o item do array
-            renderPecas(); // Re-renderiza a lista
+            initialPecas.splice(index, 1);
+            renderPecas();
         }
 
         function renderServicos() {
-            servicosContainer.innerHTML = ''; // Limpa os itens existentes
+            servicosContainer.innerHTML = '';
             initialServicos.forEach((item, index) => {
                 const total = item.quant * item.preco;
                 const row = document.createElement('div');
@@ -495,7 +611,7 @@
                 `;
                 servicosContainer.appendChild(row);
             });
-            drawCanvas(); // Sempre redesenha o canvas após atualizar a lista
+            drawAllCanvases();
         }
 
         function addServico() {
@@ -509,137 +625,100 @@
             }
 
             initialServicos.push({ quant: quant, produto: produto, preco: preco });
-            renderServicos(); // Re-renderiza a lista de serviços
+            renderServicos();
 
-            // Limpa os campos após adicionar
             newServicoQuantInput.value = "1";
             newServicoProdutoInput.value = "";
             newServicoPrecoInput.value = "0.00";
         }
 
         function removeServico(index) {
-            initialServicos.splice(index, 1); // Remove o item do array
-            renderServicos(); // Re-renderiza a lista
+            initialServicos.splice(index, 1);
+            renderServicos();
         }
 
-        // Function to increment the budget number
         function incrementOrcamento() {
             const numeroOrcamentoInput = document.getElementById('numeroOrcamento');
             let currentNumber = parseInt(numeroOrcamentoInput.value, 10);
             if (!isNaN(currentNumber)) {
                 numeroOrcamentoInput.value = currentNumber + 1;
             } else {
-                numeroOrcamentoInput.value = "1"; // Default if not a number
+                numeroOrcamentoInput.value = "1";
             }
-            drawCanvas(); // Redraw canvas to reflect the new number
+            drawAllCanvases();
         }
 
-        // Função para salvar o canvas como PDF (via janela de impressão)
         function saveCanvasAsPdf() {
-            drawCanvas(); // Desenha o canvas uma última vez para garantir que está atualizado
-            window.print(); // Abre a janela de impressão
+            drawAllCanvases();
+            window.print();
         }
 
-        // Adiciona um listener para atualizar o canvas quando os dados do cliente/veículo mudam
-        document.querySelectorAll('#numeroOrcamento, #dataOrcamento, #nomeCliente, #enderecoCliente, #cidadeCliente, #ufCliente, #emailCliente, #telCliente, #tipoVeiculo, #corVeiculo, #placaVeiculo, #cidadeVeiculo').forEach(input => {
-            input.addEventListener('input', drawCanvas);
+        document.querySelectorAll('#numeroOrcamento, #dataOrcamento, #nomeCliente, #cpfCnpjCliente, #enderecoCliente, #cidadeCliente, #ufCliente, #emailCliente, #telCliente, #tipoVeiculo, #corVeiculo, #placaVeiculo, #cidadeVeiculo, #descontoValor').forEach(input => {
+            input.addEventListener('input', drawAllCanvases);
         });
 
-        // Chama as funções de renderização no carregamento para exibir os dados iniciais
         document.addEventListener('DOMContentLoaded', () => {
-            // Define a data atual automaticamente
             const today = new Date();
             const day = String(today.getDate()).padStart(2, '0');
-            const month = String(today.getMonth() + 1).padStart(2, '0'); // Mês começa do 0
+            const month = String(today.getMonth() + 1).padStart(2, '0');
             const year = today.getFullYear();
             document.getElementById('dataOrcamento').value = `${year}-${month}-${day}`;
 
             renderPecas();
             renderServicos();
-            drawCanvas(); // Garante que o canvas seja desenhado no carregamento com os dados iniciais
+            drawAllCanvases();
         });
 
-        // Função para quebrar texto
-        function wrapText(context, text, x, y, maxWidth, lineHeight) {
-            let words = text.split(' ');
-            let line = '';
-            let lines = [];
+        // Função principal para desenhar todas as páginas
+        function drawAllCanvases() {
+            canvasPreviewContainer.innerHTML = ''; // Limpa canvases anteriores
+            canvases = []; // Limpa a lista de canvases
 
-            for (let n = 0; n < words.length; n++) {
-                let testLine = line + words[n] + ' ';
-                let metrics = context.measureText(testLine);
-                let testWidth = metrics.width;
-                if (testWidth > maxWidth && n > 0) {
-                    lines.push(line);
-                    line = words[n] + ' ';
-                } else {
-                    line = testLine;
-                }
-            }
-            lines.push(line);
+            startNewPage(); // Inicia a primeira página
 
-            for (let i = 0; i < lines.length; i++) {
-                context.fillText(lines[i], x, y + (i * lineHeight));
-            }
-            return lines.length; // Retorna o número de linhas usadas
-        }
+            // --- Cabeçalho da Empresa ---
+            currentPageCtx.font = `bold ${BASE_FONT_SIZE + 10}px Arial`; // REDUZIDO
+            currentPageCtx.fillText('POSTO DE MOLAS SÃO BENTO', MARGIN_X, currentPageY);
+            currentPageCtx.textAlign = 'right';
+            currentPageCtx.fillText('ORÇAMENTO', CANVAS_WIDTH - MARGIN_X, currentPageY);
+            currentPageCtx.textAlign = 'left';
+            currentPageY += BASE_LINE_HEIGHT + 10; // REDUZIDO
 
-        function drawCanvas() {
-            // Limpa o canvas
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            // Define a cor de fundo
-            ctx.fillStyle = '#fcf9e7'; // Cor semelhante ao papel
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            // Define o estilo de desenho
-            ctx.fillStyle = '#333';
-            ctx.strokeStyle = '#555';
-            ctx.lineWidth = 1;
-
-            // Definindo um tamanho de fonte base e um lineHeight para todos os textos
-            const baseFontSize = 20;
-            const baseLineHeight = 35;
-            let currentY = 80;
-            const marginX = 80;
-
-            // --- Cabeçalho ---
-            ctx.font = 'bold 36px Arial';
-            ctx.fillText('POSTO DE MOLAS SÃO BENTO', marginX, currentY);
-            ctx.textAlign = 'right';
-            ctx.fillText('ORÇAMENTO', canvas.width - marginX, currentY);
-            ctx.textAlign = 'left';
-            currentY += 50;
-
-            ctx.font = 'bold 26px Arial';
-            ctx.fillText('PEÇAS E SERVIÇOS', marginX, currentY);
-            ctx.textAlign = 'right';
+            currentPageCtx.font = `bold ${BASE_FONT_SIZE + 6}px Arial`; // REDUZIDO
+            currentPageCtx.fillText('PEÇAS E SERVIÇOS', MARGIN_X, currentPageY);
+            currentPageCtx.textAlign = 'right';
             const numeroOrcamento = document.getElementById('numeroOrcamento').value.trim();
-            ctx.fillText(`Nº ${numeroOrcamento === '' ? 'Não encontrado' : numeroOrcamento}`, canvas.width - marginX, currentY);
-            ctx.textAlign = 'left';
-            currentY += 60;
+            currentPageCtx.fillText(`Nº ${numeroOrcamento === '' ? '' : numeroOrcamento}`, CANVAS_WIDTH - MARGIN_X, currentPageY);
+            currentPageCtx.textAlign = 'left';
+            currentPageY += BASE_LINE_HEIGHT + 20; // REDUZIDO
 
-            // --- Informações da Empresa ---
-            ctx.font = `${baseFontSize}px Arial`;
-            ctx.fillText('Suspensão de Caminhão e Caminhonete', marginX, currentY);
-            currentY += baseLineHeight - 5;
-            ctx.fillText('Alinhamento e Balanceamento - Suspensão a Ar', marginX, currentY);
-            currentY += baseLineHeight - 5;
-            ctx.fillText('42 99934-3158 | 42 99946-5858', marginX, currentY);
-            ctx.textAlign = 'right';
-            ctx.fillText('CNPJ 50.076.502/0001-74', canvas.width - marginX, currentY);
-            ctx.textAlign = 'left';
-            currentY += baseLineHeight - 5;
-            ctx.fillText('postodemolassaobento@gmail.com - Av. Souza Naves, 4250 - CEP 84064-000 - Ponta Grossa / PR', marginX, currentY);
-            currentY += 60;
+            currentPageCtx.font = `${BASE_FONT_SIZE - 2}px Arial`; // REDUZIDO
+            currentPageCtx.fillText('Suspensão de Caminhão e Caminhonete', MARGIN_X, currentPageY);
+            currentPageY += SMALL_LINE_HEIGHT; // REDUZIDO
+            currentPageCtx.fillText('Alinhamento e Balanceamento - Suspensão a Ar', MARGIN_X, currentPageY);
+            currentPageY += SMALL_LINE_HEIGHT; // REDUZIDO
+            currentPageCtx.fillText('42 99934-3158 | 42 99946-5858', MARGIN_X, currentPageY);
+            currentPageCtx.textAlign = 'right';
+            currentPageCtx.fillText('CNPJ 50.076.502/0001-74', CANVAS_WIDTH - MARGIN_X, currentPageY);
+            currentPageCtx.textAlign = 'left';
+            currentPageY += SMALL_LINE_HEIGHT; // REDUZIDO
+            currentPageCtx.fillText('postodemolassaobento@gmail.com - Av. Souza Naves, 4250 - CEP 84064-000 - Ponta Grossa / PR', MARGIN_X, currentPageY);
+            currentPageY += BASE_LINE_HEIGHT + 20; // REDUZIDO
 
-            // --- Detalhes do Cliente e Veículo ---
-            ctx.font = `bold ${baseFontSize + 4}px Arial`;
-            ctx.fillText('DADOS DO CLIENTE E VEÍCULO', marginX, currentY);
-            currentY += baseLineHeight + 10;
-            ctx.font = `${baseFontSize}px Arial`;
+            // --- Dados do Cliente e Veículo ---
+            currentPageCtx.font = `bold ${BASE_FONT_SIZE + 2}px Arial`; // REDUZIDO
+            let clientVehicleSectionHeight = (BASE_LINE_HEIGHT + 10) + (SMALL_LINE_HEIGHT * 5) + (BASE_LINE_HEIGHT + 20); // Título + 5 linhas de dados + espaçamento final
+
+            if (currentPageY + clientVehicleSectionHeight > (CANVAS_HEIGHT - MARGIN_BOTTOM_PAGE)) {
+                startNewPage();
+            }
+
+            currentPageCtx.fillText('DADOS DO CLIENTE E VEÍCULO', MARGIN_X, currentPageY);
+            currentPageY += BASE_LINE_HEIGHT + 10; // REDUZIDO
+            currentPageCtx.font = `${BASE_FONT_SIZE - 2}px Arial`; // REDUZIDO
 
             const nomeCliente = document.getElementById('nomeCliente').value.trim();
+            const cpfCnpjCliente = document.getElementById('cpfCnpjCliente').value.trim();
             const enderecoCliente = document.getElementById('enderecoCliente').value.trim();
             const cidadeCliente = document.getElementById('cidadeCliente').value.trim();
             const ufCliente = document.getElementById('ufCliente').value.trim();
@@ -650,134 +729,209 @@
             const placaVeiculo = document.getElementById('placaVeiculo').value.trim();
             const cidadeVeiculo = document.getElementById('cidadeVeiculo').value.trim();
 
-            ctx.fillText(`Nome: ${nomeCliente === '' ? 'Não encontrado' : nomeCliente}`, marginX, currentY);
-            ctx.fillText(`Endereço: ${enderecoCliente === '' ? 'Não encontrado' : enderecoCliente}`, marginX + 400, currentY);
-            currentY += baseLineHeight;
-            ctx.fillText(`Cidade/UF: ${cidadeCliente === '' ? 'Não encontrado' : cidadeCliente}/${ufCliente === '' ? 'Não encontrado' : ufCliente}`, marginX, currentY);
-            ctx.fillText(`E-mail: ${emailCliente === '' ? 'Não encontrado' : emailCliente}`, marginX + 400, currentY);
-            currentY += baseLineHeight;
-            ctx.fillText(`Telefone: ${telCliente === '' ? 'Não encontrado' : telCliente}`, marginX, currentY);
-            currentY += baseLineHeight;
-            ctx.fillText(`Veículo: ${tipoVeiculo === '' ? 'Não encontrado' : tipoVeiculo}`, marginX, currentY);
-            ctx.fillText(`Cor: ${corVeiculo === '' ? 'Não encontrado' : corVeiculo}`, marginX + 400, currentY);
-            currentY += baseLineHeight;
-            ctx.fillText(`Placa: ${placaVeiculo === '' ? 'Não encontrado' : placaVeiculo}`, marginX, currentY);
-            ctx.fillText(`Cidade Veículo: ${cidadeVeiculo === '' ? 'Não encontrado' : cidadeVeiculo}`, marginX + 400, currentY);
-            currentY += 60;
+            currentPageCtx.fillText(`Nome: ${nomeCliente === '' ? 'Não encontrado' : nomeCliente}`, MARGIN_X, currentPageY);
+            currentPageCtx.fillText(`CPF/CNPJ: ${cpfCnpjCliente === '' ? 'Não encontrado' : cpfCnpjCliente}`, MARGIN_X + 400, currentPageY);
+            currentPageY += SMALL_LINE_HEIGHT; // REDUZIDO
+            currentPageCtx.fillText(`Endereço: ${enderecoCliente === '' ? 'Não encontrado' : enderecoCliente}`, MARGIN_X, currentPageY);
+            currentPageCtx.fillText(`Cidade/UF: ${cidadeCliente === '' ? 'Não encontrado' : cidadeCliente}/${ufCliente === '' ? 'Não encontrado' : ufCliente}`, MARGIN_X + 400, currentPageY);
+            currentPageY += SMALL_LINE_HEIGHT; // REDUZIDO
+            currentPageCtx.fillText(`E-mail: ${emailCliente === '' ? 'Não encontrado' : emailCliente}`, MARGIN_X, currentPageY);
+            currentPageCtx.fillText(`Telefone: ${telCliente === '' ? 'Não encontrado' : telCliente}`, MARGIN_X + 400, currentPageY);
+            currentPageY += SMALL_LINE_HEIGHT; // REDUZIDO
+            currentPageCtx.fillText(`Veículo: ${tipoVeiculo === '' ? 'Não encontrado' : tipoVeiculo}`, MARGIN_X, currentPageY);
+            currentPageCtx.fillText(`Cor: ${corVeiculo === '' ? 'Não encontrado' : corVeiculo}`, MARGIN_X + 400, currentPageY);
+            currentPageY += SMALL_LINE_HEIGHT; // REDUZIDO
+            currentPageCtx.fillText(`Placa: ${placaVeiculo === '' ? 'Não encontrado' : placaVeiculo}`, MARGIN_X, currentPageY);
+            currentPageCtx.fillText(`Cidade Veículo: ${cidadeVeiculo === '' ? 'Não encontrado' : cidadeVeiculo}`, MARGIN_X + 400, currentPageY);
+            currentPageY += BASE_LINE_HEIGHT + 20; // REDUZIDO
 
-            // --- Título "Peças" ---
-            ctx.font = `bold ${baseFontSize + 6}px Arial`;
-            ctx.textAlign = 'center';
-            ctx.fillText('PEÇAS', canvas.width / 2, currentY);
-            ctx.textAlign = 'left';
-            currentY += baseLineHeight + 10;
+            // --- Seção de Peças ---
+            let pecasSectionTitleHeight = BASE_LINE_HEIGHT + 6 + 10;
+            let pecasTableHeaderHeight = (BASE_FONT_SIZE + 2 + 10) + (SMALL_LINE_HEIGHT + 5);
 
-            // --- Cabeçalho da Tabela para Peças ---
-            ctx.font = `bold ${baseFontSize + 2}px Arial`;
-            ctx.fillText('QUANT.', marginX, currentY);
-            ctx.fillText('UNID.', marginX + 120, currentY);
-            ctx.fillText('DESCRIÇÃO', marginX + 240, currentY);
-            ctx.textAlign = 'right';
-            ctx.fillText('VALOR UNIT.', canvas.width - marginX - 240, currentY);
-            ctx.fillText('TOTAL', canvas.width - marginX, currentY);
-            ctx.textAlign = 'left';
-            currentY += 10;
-            ctx.beginPath();
-            ctx.moveTo(marginX, currentY);
-            ctx.lineTo(canvas.width - marginX, currentY);
-            ctx.stroke();
-            currentY += baseLineHeight + 5;
+            currentPageCtx.font = `bold ${BASE_FONT_SIZE + 4}px Arial`; // REDUZIDO
+            if (currentPageY + pecasSectionTitleHeight + pecasTableHeaderHeight > (CANVAS_HEIGHT - MARGIN_BOTTOM_PAGE)) {
+                startNewPage();
+            }
 
-            ctx.font = `${baseFontSize}px Arial`;
-            let totalPecas = 0;
-            // Desenha as Peças
+            currentPageCtx.textAlign = 'center';
+            currentPageCtx.fillText('PEÇAS', CANVAS_WIDTH / 2, currentPageY);
+            currentPageCtx.textAlign = 'left';
+            currentPageY += BASE_LINE_HEIGHT + 10; // REDUZIDO
+
+            currentPageCtx.font = `bold ${BASE_FONT_SIZE}px Arial`; // REDUZIDO
+            currentPageCtx.fillText('QUANT.', MARGIN_X, currentPageY);
+            currentPageCtx.fillText('UNID.', MARGIN_X + 100, currentPageY); // Ajustado X
+            currentPageCtx.fillText('DESCRIÇÃO', MARGIN_X + 180, currentPageY); // Ajustado X
+            currentPageCtx.textAlign = 'right';
+            currentPageCtx.fillText('VALOR UNIT.', CANVAS_WIDTH - MARGIN_X - 220, currentPageY); // Ajustado X
+            currentPageCtx.fillText('TOTAL', CANVAS_WIDTH - MARGIN_X, currentPageY);
+            currentPageCtx.textAlign = 'left';
+            currentPageY += 8; // REDUZIDO
+            currentPageCtx.beginPath();
+            currentPageCtx.moveTo(MARGIN_X, currentPageY);
+            currentPageCtx.lineTo(CANVAS_WIDTH - MARGIN_X, currentPageY);
+            currentPageCtx.stroke();
+            currentPageY += SMALL_LINE_HEIGHT + 5; // REDUZIDO
+
+            currentPageCtx.font = `${BASE_FONT_SIZE - 2}px Arial`; // REDUZIDO
             initialPecas.forEach(item => {
                 const itemTotal = item.quant * item.precoUnit;
-                ctx.fillText(item.quant.toFixed(2), marginX, currentY);
-                ctx.fillText(item.unid, marginX + 120, currentY);
-                const linesUsed = wrapText(ctx, item.produto, marginX + 240, currentY, 300, baseLineHeight - 5);
-                ctx.textAlign = 'right';
-                ctx.fillText(formatCurrency(item.precoUnit), canvas.width - marginX - 240, currentY);
-                ctx.fillText(formatCurrency(itemTotal), canvas.width - marginX, currentY);
-                ctx.textAlign = 'left';
-                totalPecas += itemTotal;
-                currentY += (linesUsed * (baseLineHeight - 5));
+
+                const requiredHeight = measureWrappedTextHeight(currentPageCtx, item.produto, 350, SMALL_LINE_HEIGHT); // REDUZIDO MAXWIDTH
+
+                if (currentPageY + requiredHeight + (SMALL_LINE_HEIGHT * 1) > (CANVAS_HEIGHT - MARGIN_BOTTOM_PAGE)) {
+                    startNewPage();
+                    // Redesenha cabeçalho de peças na nova página
+                    currentPageCtx.font = `bold ${BASE_FONT_SIZE + 4}px Arial`;
+                    currentPageCtx.textAlign = 'center';
+                    currentPageCtx.fillText('PEÇAS (continuação)', CANVAS_WIDTH / 2, currentPageY);
+                    currentPageCtx.textAlign = 'left';
+                    currentPageY += BASE_LINE_HEIGHT + 10;
+
+                    currentPageCtx.font = `bold ${BASE_FONT_SIZE}px Arial`;
+                    currentPageCtx.fillText('QUANT.', MARGIN_X, currentPageY);
+                    currentPageCtx.fillText('UNID.', MARGIN_X + 100, currentPageY);
+                    currentPageCtx.fillText('DESCRIÇÃO', MARGIN_X + 180, currentPageY);
+                    currentPageCtx.textAlign = 'right';
+                    currentPageCtx.fillText('VALOR UNIT.', CANVAS_WIDTH - MARGIN_X - 220, currentPageY);
+                    currentPageCtx.fillText('TOTAL', CANVAS_WIDTH - MARGIN_X, currentPageY);
+                    currentPageCtx.textAlign = 'left';
+                    currentPageY += 8;
+                    currentPageCtx.beginPath();
+                    currentPageCtx.moveTo(MARGIN_X, currentPageY);
+                    currentPageCtx.lineTo(CANVAS_WIDTH - MARGIN_X, currentPageY);
+                    currentPageCtx.stroke();
+                    currentPageY += SMALL_LINE_HEIGHT + 5;
+                    currentPageCtx.font = `${BASE_FONT_SIZE - 2}px Arial`;
+                }
+
+                currentPageCtx.fillText(item.quant.toFixed(2), MARGIN_X, currentPageY);
+                currentPageCtx.fillText(item.unid, MARGIN_X + 100, currentPageY);
+                const actualHeightUsed = drawWrappedText(currentPageCtx, item.produto, MARGIN_X + 180, currentPageY, 350, SMALL_LINE_HEIGHT); // REDUZIDO MAXWIDTH
+                currentPageCtx.textAlign = 'right';
+                currentPageCtx.fillText(formatCurrency(item.precoUnit), CANVAS_WIDTH - MARGIN_X - 220, currentPageY);
+                currentPageCtx.fillText(formatCurrency(itemTotal), CANVAS_WIDTH - MARGIN_X, currentPageY);
+                currentPageCtx.textAlign = 'left';
+                currentPageY += actualHeightUsed;
             });
-            currentY += 40;
+            currentPageY += 30; // REDUZIDO
 
-            // --- Título "Serviços" ---
-            ctx.font = `bold ${baseFontSize + 6}px Arial`;
-            ctx.textAlign = 'center';
-            ctx.fillText('SERVIÇOS', canvas.width / 2, currentY);
-            ctx.textAlign = 'left';
-            currentY += baseLineHeight + 10;
+            // --- Seção de Serviços ---
+            let servicosSectionTitleHeight = BASE_LINE_HEIGHT + 6 + 10;
+            let servicosTableHeaderHeight = (BASE_FONT_SIZE + 2 + 10) + (SMALL_LINE_HEIGHT + 5);
 
-            // --- Cabeçalho da Tabela para Serviços ---
-            ctx.font = `bold ${baseFontSize + 2}px Arial`;
-            ctx.fillText('QUANT.', marginX, currentY);
-            ctx.fillText('DESCRIÇÃO', marginX + 240, currentY);
-            ctx.textAlign = 'right';
-            ctx.fillText('VALOR UNIT.', canvas.width - marginX - 240, currentY);
-            ctx.fillText('TOTAL', canvas.width - marginX, currentY);
-            ctx.textAlign = 'left';
-            currentY += 10;
-            ctx.beginPath();
-            ctx.moveTo(marginX, currentY);
-            ctx.lineTo(canvas.width - marginX, currentY);
-            ctx.stroke();
-            currentY += baseLineHeight + 5;
+            if (currentPageY + servicosSectionTitleHeight + servicosTableHeaderHeight > (CANVAS_HEIGHT - MARGIN_BOTTOM_PAGE)) {
+                startNewPage();
+            }
 
-            ctx.font = `${baseFontSize}px Arial`;
-            let totalServicos = 0;
-            // Desenha os Serviços
+            currentPageCtx.font = `bold ${BASE_FONT_SIZE + 4}px Arial`; // REDUZIDO
+            currentPageCtx.textAlign = 'center';
+            currentPageCtx.fillText('SERVIÇOS', CANVAS_WIDTH / 2, currentPageY);
+            currentPageCtx.textAlign = 'left';
+            currentPageY += BASE_LINE_HEIGHT + 10; // REDUZIDO
+
+            currentPageCtx.font = `bold ${BASE_FONT_SIZE}px Arial`; // REDUZIDO
+            currentPageCtx.fillText('QUANT.', MARGIN_X, currentPageY);
+            currentPageCtx.fillText('DESCRIÇÃO', MARGIN_X + 180, currentPageY); // Ajustado X
+            currentPageCtx.textAlign = 'right';
+            currentPageCtx.fillText('VALOR UNIT.', CANVAS_WIDTH - MARGIN_X - 220, currentPageY); // Ajustado X
+            currentPageCtx.fillText('TOTAL', CANVAS_WIDTH - MARGIN_X, currentPageY);
+            currentPageCtx.textAlign = 'left';
+            currentPageY += 8; // REDUZIDO
+            currentPageCtx.beginPath();
+            currentPageCtx.moveTo(MARGIN_X, currentPageY);
+            currentPageCtx.lineTo(CANVAS_WIDTH - MARGIN_X, currentPageY);
+            currentPageCtx.stroke();
+            currentPageY += SMALL_LINE_HEIGHT + 5; // REDUZIDO
+
+            currentPageCtx.font = `${BASE_FONT_SIZE - 2}px Arial`; // REDUZIDO
             initialServicos.forEach(item => {
                 const itemTotal = item.quant * item.preco;
-                ctx.fillText(item.quant.toFixed(2), marginX, currentY);
-                const linesUsed = wrapText(ctx, item.produto, marginX + 240, currentY, 400, baseLineHeight - 5);
-                ctx.textAlign = 'right';
-                ctx.fillText(formatCurrency(item.preco), canvas.width - marginX - 240, currentY);
-                ctx.fillText(formatCurrency(itemTotal), canvas.width - marginX, currentY);
-                ctx.textAlign = 'left';
-                totalServicos += itemTotal;
-                currentY += (linesUsed * (baseLineHeight - 5));
+                const requiredHeight = measureWrappedTextHeight(currentPageCtx, item.produto, 450, SMALL_LINE_HEIGHT); // REDUZIDO MAXWIDTH
+
+                if (currentPageY + requiredHeight + (SMALL_LINE_HEIGHT * 1) > (CANVAS_HEIGHT - MARGIN_BOTTOM_PAGE)) {
+                    startNewPage();
+                    // Redesenha cabeçalho de serviços na nova página
+                    currentPageCtx.font = `bold ${BASE_FONT_SIZE + 4}px Arial`;
+                    currentPageCtx.textAlign = 'center';
+                    currentPageCtx.fillText('SERVIÇOS (continuação)', CANVAS_WIDTH / 2, currentPageY);
+                    currentPageCtx.textAlign = 'left';
+                    currentPageY += BASE_LINE_HEIGHT + 10;
+
+                    currentPageCtx.font = `bold ${BASE_FONT_SIZE}px Arial`;
+                    currentPageCtx.fillText('QUANT.', MARGIN_X, currentPageY);
+                    currentPageCtx.fillText('DESCRIÇÃO', MARGIN_X + 180, currentPageY);
+                    currentPageCtx.textAlign = 'right';
+                    currentPageCtx.fillText('VALOR UNIT.', CANVAS_WIDTH - MARGIN_X - 220, currentPageY);
+                    currentPageCtx.fillText('TOTAL', CANVAS_WIDTH - MARGIN_X, currentPageY);
+                    currentPageCtx.textAlign = 'left';
+                    currentPageY += 8;
+                    currentPageCtx.beginPath();
+                    currentPageCtx.moveTo(MARGIN_X, currentPageY);
+                    currentPageCtx.lineTo(CANVAS_WIDTH - MARGIN_X, currentPageY);
+                    currentPageCtx.stroke();
+                    currentPageY += SMALL_LINE_HEIGHT + 5;
+                    currentPageCtx.font = `${BASE_FONT_SIZE - 2}px Arial`;
+                }
+
+                currentPageCtx.fillText(item.quant.toFixed(2), MARGIN_X, currentPageY);
+                const actualHeightUsed = drawWrappedText(currentPageCtx, item.produto, MARGIN_X + 180, currentPageY, 450, SMALL_LINE_HEIGHT); // REDUZIDO MAXWIDTH
+                currentPageCtx.textAlign = 'right';
+                currentPageCtx.fillText(formatCurrency(item.preco), CANVAS_WIDTH - MARGIN_X - 220, currentPageY);
+                currentPageCtx.fillText(formatCurrency(itemTotal), CANVAS_WIDTH - MARGIN_X, currentPageY);
+                currentPageCtx.textAlign = 'left';
+                currentPageY += actualHeightUsed;
             });
-            currentY += 50;
+            currentPageY += 40; // REDUZIDO
 
-            // --- Totais ---
-            ctx.font = `bold ${baseFontSize + 6}px Arial`;
-            ctx.textAlign = 'right';
-            ctx.fillText('TOTAL DE PEÇAS:', canvas.width - marginX - 300, currentY);
-            ctx.fillText(formatCurrency(totalPecas), canvas.width - marginX, currentY);
-            currentY += baseLineHeight + 15;
+            // --- Totais e Rodapé ---
+            let totalsFooterHeight = (SMALL_LINE_HEIGHT + 8) * 3 + (BASE_FONT_SIZE + 8 + 15) + (SMALL_LINE_HEIGHT + 8) + 80 + 25 + BASE_FONT_SIZE; // Ajustado os cálculos de altura para os novos tamanhos de fonte e linha
 
-            ctx.fillText('TOTAL DE SERVIÇOS:', canvas.width - marginX - 300, currentY);
-            ctx.fillText(formatCurrency(totalServicos), canvas.width - marginX, currentY);
-            currentY += baseLineHeight + 15;
+            if (currentPageY + totalsFooterHeight > (CANVAS_HEIGHT - MARGIN_BOTTOM_PAGE)) {
+                startNewPage();
+            }
 
-            ctx.font = 'bold 32px Arial';
-            ctx.fillText('TOTAL GERAL:', canvas.width - marginX - 300, currentY);
-            ctx.fillText(formatCurrency(totalPecas + totalServicos), canvas.width - marginX, currentY);
-            currentY += baseLineHeight + 60;
+            const totalPecas = initialPecas.reduce((sum, item) => sum + (item.quant * item.precoUnit), 0);
+            const totalServicos = initialServicos.reduce((sum, item) => sum + (item.quant * item.preco), 0);
+            const desconto = parseFloat(document.getElementById('descontoValor').value) || 0;
+            const totalGeral = totalPecas + totalServicos - desconto;
 
-            // --- Data do Orçamento ---
-            ctx.font = `${baseFontSize + 4}px Arial`;
-            ctx.textAlign = 'left';
+            currentPageCtx.font = `bold ${BASE_FONT_SIZE + 4}px Arial`; // REDUZIDO
+            currentPageCtx.textAlign = 'right';
+            currentPageCtx.fillText('TOTAL DE PEÇAS:', CANVAS_WIDTH - MARGIN_X - 300, currentPageY);
+            currentPageCtx.fillText(formatCurrency(totalPecas), CANVAS_WIDTH - MARGIN_X, currentPageY);
+            currentPageY += SMALL_LINE_HEIGHT + 8; // REDUZIDO
+
+            currentPageCtx.fillText('TOTAL DE SERVIÇOS:', CANVAS_WIDTH - MARGIN_X - 300, currentPageY);
+            currentPageCtx.fillText(formatCurrency(totalServicos), CANVAS_WIDTH - MARGIN_X, currentPageY);
+            currentPageY += SMALL_LINE_HEIGHT + 8; // REDUZIDO
+
+            currentPageCtx.fillText('DESCONTO:', CANVAS_WIDTH - MARGIN_X - 300, currentPageY);
+            currentPageCtx.fillText(formatCurrency(desconto), CANVAS_WIDTH - MARGIN_X, currentPageY);
+            currentPageY += SMALL_LINE_HEIGHT + 8; // REDUZIDO
+
+            currentPageCtx.font = `bold ${BASE_FONT_SIZE + 8}px Arial`; // REDUZIDO
+            currentPageCtx.fillText('TOTAL GERAL:', CANVAS_WIDTH - MARGIN_X - 300, currentPageY);
+            currentPageCtx.fillText(formatCurrency(totalGeral), CANVAS_WIDTH - MARGIN_X, currentPageY);
+            currentPageY += BASE_LINE_HEIGHT + 30; // REDUZIDO
+
+            currentPageCtx.font = `${BASE_FONT_SIZE}px Arial`; // REDUZIDO
+            currentPageCtx.textAlign = 'left';
             const dataOrcamento = document.getElementById('dataOrcamento').value;
             const dataFormatada = dataOrcamento ? new Date(dataOrcamento).toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Não encontrada';
-            ctx.fillText(`Ponta Grossa, ${dataFormatada}`, marginX, currentY);
-            currentY += baseLineHeight + 100;
+            currentPageCtx.fillText(`Ponta Grossa, ${dataFormatada}`, MARGIN_X, currentPageY);
+            currentPageY += BASE_LINE_HEIGHT + 60; // REDUZIDO
 
-            // --- Linha de Assinatura ---
-            ctx.beginPath();
-            ctx.moveTo(marginX + 200, currentY);
-            ctx.lineTo(canvas.width - marginX - 200, currentY);
-            ctx.stroke();
-            currentY += 25;
-            ctx.font = `${baseFontSize + 4}px Arial`;
-            ctx.textAlign = 'center';
-            ctx.fillText('Assinatura do Responsável', canvas.width / 2, currentY);
-
-            ctx.textAlign = 'left';
+            currentPageCtx.beginPath();
+            currentPageCtx.moveTo(MARGIN_X + 150, currentPageY); // Ajustado X
+            currentPageCtx.lineTo(CANVAS_WIDTH - MARGIN_X - 150, currentPageY); // Ajustado X
+            currentPageCtx.stroke();
+            currentPageY += 20; // REDUZIDO
+            currentPageCtx.font = `${BASE_FONT_SIZE}px Arial`; // REDUZIDO
+            currentPageCtx.textAlign = 'center';
+            currentPageCtx.fillText('Assinatura do Responsável', CANVAS_WIDTH / 2, currentPageY);
+            currentPageCtx.textAlign = 'left';
         }
     </script>
 </body>
