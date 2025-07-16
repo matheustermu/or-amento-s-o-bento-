@@ -657,8 +657,6 @@
             currentY += 60; // Mais espaço
 
             // --- Cabeçalho da Tabela para Itens ---
-            
-
             ctx.font = `bold ${baseFontSize + 2}px Arial`; // Agora 22px
             ctx.fillText('QUANT.', marginX, currentY);
             ctx.fillText('UNID.', marginX + 120, currentY); // Ajuste de posição
