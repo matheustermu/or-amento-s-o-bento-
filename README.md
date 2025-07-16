@@ -553,11 +553,17 @@
             drawCanvas();
         });
 
+        // Função para quebrar texto
         function wrapText(context, text, x, y, maxWidth, lineHeight) {
             let words = text.split(' ');
             let line = '';
             let lines = [];
-            let currentYLine = y;
+            
+            // Caso o texto seja vazio ou apenas espaços, garantir uma linha em branco para ocupar o espaço
+            if (!text.trim()) {
+                context.fillText('___________________', x, y); // Linha sublinhada para campo vazio
+                return 1;
+            }
 
             for (let n = 0; n < words.length; n++) {
                 let testLine = line + words[n] + ' ';
@@ -573,7 +579,7 @@
             lines.push(line);
 
             for (let i = 0; i < lines.length; i++) {
-                context.fillText(lines[i], x, currentYLine + (i * lineHeight));
+                context.fillText(lines[i], x, y + (i * lineHeight));
             }
             return lines.length;
         }
@@ -590,6 +596,7 @@
             const baseLineHeight = 40;
             let currentY = 90;
             const marginX = 90;
+            const infoOffset = 450; // Offset para a segunda coluna de informações
 
             // --- Cabeçalho ---
             ctx.font = 'bold 42px Arial';
@@ -602,10 +609,8 @@
             ctx.font = 'bold 30px Arial';
             ctx.fillText('PEÇAS E SERVIÇOS', marginX, currentY);
             ctx.textAlign = 'right';
-            const numeroOrcamento = document.getElementById('numeroOrcamento').value;
-            if (numeroOrcamento) { // Só exibe se houver número
-                ctx.fillText(`Nº ${numeroOrcamento}`, canvas.width - marginX, currentY);
-            }
+            const numeroOrcamento = document.getElementById('numeroOrcamento').value || 'Não Informado';
+            ctx.fillText(`Nº ${numeroOrcamento}`, canvas.width - marginX, currentY);
             ctx.textAlign = 'left';
             currentY += 70;
 
@@ -629,70 +634,68 @@
             currentY += baseLineHeight + 15;
             ctx.font = `${baseFontSize + 2}px Arial`;
 
-            const nomeCliente = document.getElementById('nomeCliente').value;
-            const enderecoCliente = document.getElementById('enderecoCliente').value;
-            const cidadeCliente = document.getElementById('cidadeCliente').value;
-            const ufCliente = document.getElementById('ufCliente').value;
-            const emailCliente = document.getElementById('emailCliente').value;
-            const telCliente = document.getElementById('telCliente').value;
-            const tipoVeiculo = document.getElementById('tipoVeiculo').value;
-            const corVeiculo = document.getElementById('corVeiculo').value;
-            const placaVeiculo = document.getElementById('placaVeiculo').value;
-            const cidadeVeiculo = document.getElementById('cidadeVeiculo').value;
+            // Campos do cliente
+            const nomeCliente = document.getElementById('nomeCliente').value || 'Não Informado';
+            const enderecoCliente = document.getElementById('enderecoCliente').value || 'Não Informado';
+            const cidadeCliente = document.getElementById('cidadeCliente').value || 'Não Informado';
+            const ufCliente = document.getElementById('ufCliente').value || 'Não Informado';
+            const emailCliente = document.getElementById('emailCliente').value || 'Não Informado';
+            const telCliente = document.getElementById('telCliente').value || 'Não Informado';
 
-            // Exibe apenas se houver dados preenchidos
-            if (nomeCliente || enderecoCliente) {
-                ctx.fillText(`Nome: ${nomeCliente}`, marginX, currentY);
-                ctx.fillText(`Endereço: ${enderecoCliente}`, marginX + 450, currentY);
-                currentY += baseLineHeight;
-            }
-            if (cidadeCliente || ufCliente || emailCliente) {
-                ctx.fillText(`Cidade/UF: ${cidadeCliente}/${ufCliente}`, marginX, currentY);
-                ctx.fillText(`E-mail: ${emailCliente}`, marginX + 450, currentY);
-                currentY += baseLineHeight;
-            }
-            if (telCliente) {
-                ctx.fillText(`Telefone: ${telCliente}`, marginX, currentY);
-                currentY += baseLineHeight;
-            }
-            if (tipoVeiculo || corVeiculo) {
-                ctx.fillText(`Veículo: ${tipoVeiculo}`, marginX, currentY);
-                ctx.fillText(`Cor: ${corVeiculo}`, marginX + 450, currentY);
-                currentY += baseLineHeight;
-            }
-            if (placaVeiculo || cidadeVeiculo) {
-                ctx.fillText(`Placa: ${placaVeiculo}`, marginX, currentY);
-                ctx.fillText(`Cidade Veículo: ${cidadeVeiculo}`, marginX + 450, currentY);
-                currentY += baseLineHeight;
-            }
+            // Campos do veículo
+            const tipoVeiculo = document.getElementById('tipoVeiculo').value || 'Não Informado';
+            const corVeiculo = document.getElementById('corVeiculo').value || 'Não Informado';
+            const placaVeiculo = document.getElementById('placaVeiculo').value || 'Não Informado';
+            const cidadeVeiculo = document.getElementById('cidadeVeiculo').value || 'Não Informado';
+            const dataOrcamento = document.getElementById('dataOrcamento').value;
+            const formattedDate = dataOrcamento ? new Date(dataOrcamento + 'T12:00:00').toLocaleDateString('pt-BR', {day: '2-digit', month: '2-digit', year: 'numeric'}) : 'Não Informado';
 
+
+            ctx.fillText(`Data: ${formattedDate}`, marginX, currentY); // Adicionado campo de data aqui
+            ctx.fillText(`Nome: ${nomeCliente}`, marginX + infoOffset, currentY); 
+            currentY += baseLineHeight;
+
+            ctx.fillText(`Endereço: ${enderecoCliente}`, marginX, currentY); 
+            ctx.fillText(`Cidade/UF: ${cidadeCliente}/${ufCliente}`, marginX + infoOffset, currentY);
+            currentY += baseLineHeight;
+
+            ctx.fillText(`E-mail: ${emailCliente}`, marginX, currentY);
+            ctx.fillText(`Telefone: ${telCliente}`, marginX + infoOffset, currentY);
+            currentY += baseLineHeight;
+
+            ctx.fillText(`Veículo: ${tipoVeiculo}`, marginX, currentY);
+            ctx.fillText(`Cor: ${corVeiculo}`, marginX + infoOffset, currentY);
+            currentY += baseLineHeight;
+
+            ctx.fillText(`Placa: ${placaVeiculo}`, marginX, currentY);
+            ctx.fillText(`Cidade Veículo: ${cidadeVeiculo}`, marginX + infoOffset, currentY);
             currentY += 90; // Mais espaço após os dados do cliente/veículo
 
+            // --- Título da Seção de Peças ---
+            ctx.font = `bold ${baseFontSize + 4}px Arial`;
+            ctx.fillText('PEÇAS:', marginX, currentY);
+            currentY += baseLineHeight + 10;
+
+            // --- Cabeçalho da Tabela para Peças ---
+            ctx.font = `bold ${baseFontSize + 2}px Arial`;
+            ctx.fillText('QUANT.', marginX, currentY);
+            ctx.fillText('UNID.', marginX + 140, currentY);
+            ctx.fillText('DESCRIÇÃO', marginX + 280, currentY);
+            ctx.textAlign = 'right';
+            ctx.fillText('VALOR UNIT.', canvas.width - marginX - 280, currentY);
+            ctx.fillText('TOTAL', canvas.width - marginX, currentY);
+            ctx.textAlign = 'left';
+            currentY += 12;
+            ctx.beginPath();
+            ctx.moveTo(marginX, currentY);
+            ctx.lineTo(canvas.width - marginX, currentY);
+            ctx.stroke();
+            currentY += baseLineHeight;
+
+            ctx.font = `${baseFontSize}px Arial`;
             let totalPecas = 0;
+            // Desenha as Peças
             if (initialPecas.length > 0) {
-                // --- Título da Seção de Peças ---
-                ctx.font = `bold ${baseFontSize + 4}px Arial`;
-                ctx.fillText('PEÇAS:', marginX, currentY);
-                currentY += baseLineHeight + 10;
-
-                // --- Cabeçalho da Tabela para Peças ---
-                ctx.font = `bold ${baseFontSize + 2}px Arial`;
-                ctx.fillText('QUANT.', marginX, currentY);
-                ctx.fillText('UNID.', marginX + 140, currentY);
-                ctx.fillText('DESCRIÇÃO', marginX + 280, currentY);
-                ctx.textAlign = 'right';
-                ctx.fillText('VALOR UNIT.', canvas.width - marginX - 280, currentY);
-                ctx.fillText('TOTAL', canvas.width - marginX, currentY);
-                ctx.textAlign = 'left';
-                currentY += 12;
-                ctx.beginPath();
-                ctx.moveTo(marginX, currentY);
-                ctx.lineTo(canvas.width - marginX, currentY);
-                ctx.stroke();
-                currentY += baseLineHeight;
-
-                ctx.font = `${baseFontSize}px Arial`;
-                // Desenha as Peças
                 initialPecas.forEach(item => {
                     const itemTotal = item.quant * item.precoUnit;
                     ctx.fillText(item.quant.toFixed(2), marginX, currentY);
@@ -705,33 +708,45 @@
                     totalPecas += itemTotal;
                     currentY += (linesUsed * (baseLineHeight - 8));
                 });
-                currentY += 60;
+            } else {
+                // Linhas vazias se não houver peças para preencher o espaço
+                for (let i = 0; i < 3; i++) { // Desenha 3 linhas vazias de exemplo
+                    ctx.fillText('0.00', marginX, currentY);
+                    ctx.fillText('_______', marginX + 140, currentY);
+                    wrapText(ctx, '', marginX + 280, currentY, 400, baseLineHeight - 8); // Desenha a linha sublinhada
+                    ctx.textAlign = 'right';
+                    ctx.fillText('R$ 0,00', canvas.width - marginX - 280, currentY);
+                    ctx.fillText('R$ 0,00', canvas.width - marginX, currentY);
+                    ctx.textAlign = 'left';
+                    currentY += baseLineHeight - 8;
+                }
             }
+            currentY += 60;
 
+            // --- Título da Seção de Serviços ---
+            ctx.font = `bold ${baseFontSize + 4}px Arial`;
+            ctx.fillText('SERVIÇOS:', marginX, currentY);
+            currentY += baseLineHeight + 10;
+
+            // --- Cabeçalho da Tabela para Serviços ---
+            ctx.font = `bold ${baseFontSize + 2}px Arial`;
+            ctx.fillText('QUANT.', marginX, currentY);
+            ctx.fillText('DESCRIÇÃO', marginX + 280, currentY);
+            ctx.textAlign = 'right';
+            ctx.fillText('VALOR UNIT.', canvas.width - marginX - 280, currentY);
+            ctx.fillText('TOTAL', canvas.width - marginX, currentY);
+            ctx.textAlign = 'left';
+            currentY += 12;
+            ctx.beginPath();
+            ctx.moveTo(marginX, currentY);
+            ctx.lineTo(canvas.width - marginX, currentY);
+            ctx.stroke();
+            currentY += baseLineHeight;
+
+            ctx.font = `${baseFontSize}px Arial`;
             let totalServicos = 0;
+            // Desenha os Serviços
             if (initialServicos.length > 0) {
-                // --- Título da Seção de Serviços ---
-                ctx.font = `bold ${baseFontSize + 4}px Arial`;
-                ctx.fillText('SERVIÇOS:', marginX, currentY);
-                currentY += baseLineHeight + 10;
-
-                // --- Cabeçalho da Tabela para Serviços ---
-                ctx.font = `bold ${baseFontSize + 2}px Arial`;
-                ctx.fillText('QUANT.', marginX, currentY);
-                ctx.fillText('DESCRIÇÃO', marginX + 280, currentY);
-                ctx.textAlign = 'right';
-                ctx.fillText('VALOR UNIT.', canvas.width - marginX - 280, currentY);
-                ctx.fillText('TOTAL', canvas.width - marginX, currentY);
-                ctx.textAlign = 'left';
-                currentY += 12;
-                ctx.beginPath();
-                ctx.moveTo(marginX, currentY);
-                ctx.lineTo(canvas.width - marginX, currentY);
-                ctx.stroke();
-                currentY += baseLineHeight;
-
-                ctx.font = `${baseFontSize}px Arial`;
-                // Desenha os Serviços
                 initialServicos.forEach(item => {
                     const itemTotal = item.quant * item.preco;
                     ctx.fillText(item.quant.toFixed(2), marginX, currentY);
@@ -743,30 +758,38 @@
                     totalServicos += itemTotal;
                     currentY += (linesUsed * (baseLineHeight - 8));
                 });
-                currentY += 80;
+            } else {
+                // Linhas vazias se não houver serviços para preencher o espaço
+                for (let i = 0; i < 3; i++) { // Desenha 3 linhas vazias de exemplo
+                    ctx.fillText('0.00', marginX, currentY);
+                    wrapText(ctx, '', marginX + 280, currentY, 400, baseLineHeight - 8); // Desenha a linha sublinhada
+                    ctx.textAlign = 'right';
+                    ctx.fillText('R$ 0,00', canvas.width - marginX - 280, currentY);
+                    ctx.fillText('R$ 0,00', canvas.width - marginX, currentY);
+                    ctx.textAlign = 'left';
+                    currentY += baseLineHeight - 8;
+                }
             }
+            currentY += 80;
 
             // --- Totais ---
-            // Só exibe os totais de peças/serviços se houver algum item adicionado
-            if (initialPecas.length > 0 || initialServicos.length > 0) {
-                ctx.font = `bold ${baseFontSize + 8}px Arial`;
-                ctx.textAlign = 'right';
-                ctx.fillText('TOTAL DE PEÇAS:', canvas.width - marginX - 350, currentY);
-                ctx.fillText(formatCurrency(totalPecas), canvas.width - marginX, currentY);
-                currentY += baseLineHeight + 20;
+            ctx.font = `bold ${baseFontSize + 8}px Arial`;
+            ctx.textAlign = 'right';
+            ctx.fillText('TOTAL DE PEÇAS:', canvas.width - marginX - 350, currentY);
+            ctx.fillText(formatCurrency(totalPecas), canvas.width - marginX, currentY);
+            currentY += baseLineHeight + 20;
 
-                ctx.fillText('TOTAL DE SERVIÇOS:', canvas.width - marginX - 350, currentY);
-                ctx.fillText(formatCurrency(totalServicos), canvas.width - marginX, currentY);
-                currentY += baseLineHeight + 20;
+            ctx.fillText('TOTAL DE SERVIÇOS:', canvas.width - marginX - 350, currentY);
+            ctx.fillText(formatCurrency(totalServicos), canvas.width - marginX, currentY);
+            currentY += baseLineHeight + 20;
 
-                ctx.font = 'bold 40px Arial';
-                ctx.fillText('TOTAL GERAL:', canvas.width - marginX - 350, currentY);
-                ctx.fillText(formatCurrency(totalPecas + totalServicos), canvas.width - marginX, currentY);
-            }
+            ctx.font = 'bold 40px Arial';
+            ctx.fillText('TOTAL GERAL:', canvas.width - marginX - 350, currentY);
+            ctx.fillText(formatCurrency(totalPecas + totalServicos), canvas.width - marginX, currentY);
             
             ctx.textAlign = 'left';
-            currentY = Math.max(currentY, canvas.height - 120); // Garante que o rodapé esteja sempre abaixo ou no final da página
-            
+            currentY = Math.max(currentY + 120, canvas.height - 90); // Garante que o rodapé esteja sempre abaixo ou no final da página
+
             // --- Rodapé ---
             ctx.font = '24px Arial';
             ctx.textAlign = 'center';
