@@ -589,10 +589,6 @@
             ctx.strokeStyle = '#555';
             ctx.lineWidth = 1.5;
 
-            // Novas dimensões do canvas: width="800" height="1130"
-            // Proporção A4: 210mm x 297mm -> 1 : 1.414 (aproximadamente)
-            // 800 * 1.414 = 1131.2 -> 1130 é uma boa aproximação
-
             const baseFontSize = 18; // Reduzido para 18px
             const baseLineHeight = 30; // Reduzido para 30px
             let currentY = 70; // Margem superior
@@ -600,9 +596,10 @@
             const infoOffset = 380; // Offset para a segunda coluna de informações
 
             // --- Cabeçalho ---
-            ctx.font = 'bold 32px Arial'; // Reduzido para 32px
+            ctx.font = 'bold 36px Arial'; // Aumentado ligeiramente para 36px para o título principal
             ctx.fillText('POSTO DE MOLAS SÃO BENTO', marginX, currentY);
             ctx.textAlign = 'right';
+            ctx.font = 'bold 32px Arial'; // Mantido em 32px para "ORÇAMENTO"
             ctx.fillText('ORÇAMENTO', canvas.width - marginX, currentY);
             ctx.textAlign = 'left';
             currentY += 45;
@@ -674,7 +671,7 @@
             ctx.fillText('PEÇAS:', marginX, currentY);
             currentY += baseLineHeight + 5;
 
-            // --- Cabeçalho da Tabela para Peças ---<p> peças </p>
+            // --- Cabeçalho da Tabela para Peças ---
             ctx.font = `bold ${baseFontSize + 2}px Arial`;
             ctx.fillText('QUANT.', marginX, currentY);
             ctx.fillText('UNID.', marginX + 100, currentY);
@@ -731,7 +728,7 @@
             ctx.fillText('SERVIÇOS:', marginX, currentY);
             currentY += baseLineHeight + 5;
 
-            // --- Cabeçalho da Tabela para Serviços ---<p> serviços </p>
+            // --- Cabeçalho da Tabela para Serviços ---
             ctx.font = `bold ${baseFontSize + 2}px Arial`;
             ctx.fillText('QUANT.', marginX, currentY);
             ctx.fillText('DESCRIÇÃO', marginX + 200, currentY);
