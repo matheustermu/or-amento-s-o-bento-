@@ -287,12 +287,19 @@
                 font-size: 0.95em;
                 padding: 10px;
             }
-            .add-item-fields input {
-                min-width: 100%; /* Inputs em uma nova linha */
+            .add-item-fields {
+                flex-direction: column; /* Pilha os inputs em telas menores */
+                gap: 8px; /* Ajusta o espaçamento */
             }
-            .add-item-fields input:where([type="number"]), .add-item-fields input:where([type="text"]).desc-input {
-                flex: 1; /* Permite que ocupem mais espaço */
-                width: 100%;
+            .add-item-fields input {
+                width: 100%; /* Força a largura total */
+                min-width: unset; /* Remove min-width para melhor flexibilidade */
+            }
+            .add-item-fields input:where([type="number"]) {
+                width: 100%; /* Ocupa a largura total */
+            }
+            .add-item-fields input:where([type="text"]).desc-input {
+                width: 100%; /* Ocupa a largura total */
             }
         }
 
@@ -580,6 +587,7 @@
             const produto = newPecaProdutoInput.value.trim();
             const precoUnit = parseFloat(newPecaPrecoUnitInput.value);
 
+            // CORREÇÃO: Preço Unitário deve ser >= 0
             if (isNaN(quant) || quant <= 0 || !unid || !produto || isNaN(precoUnit) || precoUnit < 0) {
                 alert("Por favor, preencha todos os campos da peça corretamente (Quantidade > 0, Preço Unitário >= 0).");
                 return;
@@ -619,6 +627,7 @@
             const produto = newServicoProdutoInput.value.trim();
             const preco = parseFloat(newServicoPrecoInput.value);
 
+            // CORREÇÃO: Preço Total deve ser >= 0
             if (isNaN(quant) || quant <= 0 || !produto || isNaN(preco) || preco < 0) {
                 alert("Por favor, preencha todos os campos do serviço corretamente (Quantidade > 0, Preço >= 0).");
                 return;
@@ -688,7 +697,7 @@
             currentPageCtx.fillText('PEÇAS E SERVIÇOS', MARGIN_X, currentPageY);
             currentPageCtx.textAlign = 'right';
             const numeroOrcamento = document.getElementById('numeroOrcamento').value.trim();
-            currentPageCtx.fillText(`Nº ${numeroOrcamento === '' ? '' : numeroOrcamento}`, CANVAS_WIDTH - MARGIN_X, currentPageY);
+            currentPageCtx.fillText(`Nº ${numeroOrcamento === '' ? 'Não informado' : numeroOrcamento}`, CANVAS_WIDTH - MARGIN_X, currentPageY); // CORREÇÃO: "Não informado"
             currentPageCtx.textAlign = 'left';
             currentPageY += BASE_LINE_HEIGHT + 20; // REDUZIDO
 
@@ -729,31 +738,32 @@
             const placaVeiculo = document.getElementById('placaVeiculo').value.trim();
             const cidadeVeiculo = document.getElementById('cidadeVeiculo').value.trim();
 
-            currentPageCtx.fillText(`Nome: ${nomeCliente === '' ? 'Não encontrado' : nomeCliente}`, MARGIN_X, currentPageY);
-            currentPageCtx.fillText(`CPF/CNPJ: ${cpfCnpjCliente === '' ? 'Não encontrado' : cpfCnpjCliente}`, MARGIN_X + 400, currentPageY);
+            // CORREÇÃO: "Não informado" para campos vazios
+            currentPageCtx.fillText(`Nome: ${nomeCliente === '' ? 'Não informado' : nomeCliente}`, MARGIN_X, currentPageY);
+            currentPageCtx.fillText(`CPF/CNPJ: ${cpfCnpjCliente === '' ? 'Não informado' : cpfCnpjCliente}`, MARGIN_X + 400, currentPageY);
             currentPageY += SMALL_LINE_HEIGHT; // REDUZIDO
-            currentPageCtx.fillText(`Endereço: ${enderecoCliente === '' ? 'Não encontrado' : enderecoCliente}`, MARGIN_X, currentPageY);
-            currentPageCtx.fillText(`Cidade/UF: ${cidadeCliente === '' ? 'Não encontrado' : cidadeCliente}/${ufCliente === '' ? 'Não encontrado' : ufCliente}`, MARGIN_X + 400, currentPageY);
+            currentPageCtx.fillText(`Endereço: ${enderecoCliente === '' ? 'Não informado' : enderecoCliente}`, MARGIN_X, currentPageY);
+            currentPageCtx.fillText(`Cidade/UF: ${cidadeCliente === '' ? 'Não informado' : cidadeCliente}/${ufCliente === '' ? 'Não informado' : ufCliente}`, MARGIN_X + 400, currentPageY);
             currentPageY += SMALL_LINE_HEIGHT; // REDUZIDO
-            currentPageCtx.fillText(`E-mail: ${emailCliente === '' ? 'Não encontrado' : emailCliente}`, MARGIN_X, currentPageY);
-            currentPageCtx.fillText(`Telefone: ${telCliente === '' ? 'Não encontrado' : telCliente}`, MARGIN_X + 400, currentPageY);
+            currentPageCtx.fillText(`E-mail: ${emailCliente === '' ? 'Não informado' : emailCliente}`, MARGIN_X, currentPageY);
+            currentPageCtx.fillText(`Telefone: ${telCliente === '' ? 'Não informado' : telCliente}`, MARGIN_X + 400, currentPageY);
             currentPageY += SMALL_LINE_HEIGHT; // REDUZIDO
-            currentPageCtx.fillText(`Veículo: ${tipoVeiculo === '' ? 'Não encontrado' : tipoVeiculo}`, MARGIN_X, currentPageY);
-            currentPageCtx.fillText(`Cor: ${corVeiculo === '' ? 'Não encontrado' : corVeiculo}`, MARGIN_X + 400, currentPageY);
+            currentPageCtx.fillText(`Veículo: ${tipoVeiculo === '' ? 'Não informado' : tipoVeiculo}`, MARGIN_X, currentPageY);
+            currentPageCtx.fillText(`Cor: ${corVeiculo === '' ? 'Não informado' : corVeiculo}`, MARGIN_X + 400, currentPageY);
             currentPageY += SMALL_LINE_HEIGHT; // REDUZIDO
-            currentPageCtx.fillText(`Placa: ${placaVeiculo === '' ? 'Não encontrado' : placaVeiculo}`, MARGIN_X, currentPageY);
-            currentPageCtx.fillText(`Cidade Veículo: ${cidadeVeiculo === '' ? 'Não encontrado' : cidadeVeiculo}`, MARGIN_X + 400, currentPageY);
+            currentPageCtx.fillText(`Placa: ${placaVeiculo === '' ? 'Não informado' : placaVeiculo}`, MARGIN_X, currentPageY);
+            currentPageCtx.fillText(`Cidade Veículo: ${cidadeVeiculo === '' ? 'Não informado' : cidadeVeiculo}`, MARGIN_X + 400, currentPageY);
             currentPageY += BASE_LINE_HEIGHT + 20; // REDUZIDO
 
             // --- Seção de Peças ---
             let pecasSectionTitleHeight = BASE_LINE_HEIGHT + 6 + 10;
             let pecasTableHeaderHeight = (BASE_FONT_SIZE + 2 + 10) + (SMALL_LINE_HEIGHT + 5);
 
-            currentPageCtx.font = `bold ${BASE_FONT_SIZE + 4}px Arial`; // REDUZIDO
             if (currentPageY + pecasSectionTitleHeight + pecasTableHeaderHeight > (CANVAS_HEIGHT - MARGIN_BOTTOM_PAGE)) {
                 startNewPage();
             }
 
+            currentPageCtx.font = `bold ${BASE_FONT_SIZE + 4}px Arial`; // REDUZIDO
             currentPageCtx.textAlign = 'center';
             currentPageCtx.fillText('PEÇAS', CANVAS_WIDTH / 2, currentPageY);
             currentPageCtx.textAlign = 'left';
@@ -919,7 +929,7 @@
             currentPageCtx.font = `${BASE_FONT_SIZE}px Arial`; // REDUZIDO
             currentPageCtx.textAlign = 'left';
             const dataOrcamento = document.getElementById('dataOrcamento').value;
-            const dataFormatada = dataOrcamento ? new Date(dataOrcamento).toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Não encontrada';
+            const dataFormatada = dataOrcamento ? new Date(dataOrcamento).toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Não informado'; // CORREÇÃO: "Não informado"
             currentPageCtx.fillText(`Ponta Grossa, ${dataFormatada}`, MARGIN_X, currentPageY);
             currentPageY += BASE_LINE_HEIGHT + 60; // REDUZIDO
 
