@@ -290,8 +290,8 @@
                 min-width: 100%; /* Inputs em uma nova linha */
             }
             .add-item-fields input[type="number"], .add-item-fields input[type="text"].desc-input {
-                 flex: 1; /* Permite que ocupem mais espaço */
-                 width: 100%;
+                flex: 1; /* Permite que ocupem mais espaço */
+                width: 100%;
             }
         }
 
@@ -412,7 +412,7 @@
             </div>
             <button onclick="addServico()">Adicionar Serviço</button>
 
-            <button id="savePdfButton" onclick="saveCanvasAsPdf()">Salvar PDF</button>
+            <button id="savePdfButton" onclick="saveCanvasAsPdf()">Salvar/Imprimir PDF</button>
         </div>
 
         <div class="canvas-section">
@@ -656,14 +656,20 @@
             ctx.fillText(`Cidade Veículo: ${document.getElementById('cidadeVeiculo').value}`, marginX + 400, currentY); // Ajuste de posição
             currentY += 60; // Mais espaço
 
-            // --- Cabeçalho da Tabela para Itens ---
-               
+            // --- Título "Peças" ---
+            ctx.font = `bold ${baseFontSize + 6}px Arial`; // Fonte maior para o título
+            ctx.textAlign = 'center';
+            ctx.fillText('PEÇAS', canvas.width / 2, currentY);
+            ctx.textAlign = 'left'; // Reset para o padrão
+            currentY += baseLineHeight + 10; // Espaço após o título
+
+            // --- Cabeçalho da Tabela para Peças ---
             ctx.font = `bold ${baseFontSize + 2}px Arial`; // Agora 22px
             ctx.fillText('QUANT.', marginX, currentY);
-            ctx.fillText('UNID.', marginX + 120, currentY); // Ajuste de posição
+            ctx.fillText('UNID.', marginX + 120, currentY);
             ctx.fillText('DESCRIÇÃO', marginX + 240, currentY); // Ajuste de posição
             ctx.textAlign = 'right';
-            ctx.fillText('VALOR UNIT.', canvas.width - marginX - 240, currentY); // Ajuste de posição
+            ctx.fillText('VALOR UNIT.', canvas.width - marginX - 240, currentY);
             ctx.fillText('TOTAL', canvas.width - marginX, currentY);
             ctx.textAlign = 'left';
             currentY += 10;
@@ -678,9 +684,9 @@
             // Desenha as Peças
             initialPecas.forEach(item => {
                 const itemTotal = item.quant * item.precoUnit;
-                ctx.fillText(item.quant.toFixed(2), marginX, currentY);
-                ctx.fillText(item.unid, marginX + 120, currentY);
-                const linesUsed = wrapText(ctx, item.produto, marginX + 240, currentY, 400, baseLineHeight - 5); // Largura e lineHeight para descrição
+                ctx.fillText(item.quant.toFixed(2), marginX, currentY); // Ajustado para QUANT.
+                ctx.fillText(item.unid, marginX + 120, currentY); // Ajustado para UNID.
+                const linesUsed = wrapText(ctx, item.produto, marginX + 240, currentY, 300, baseLineHeight - 5); // Ajuste da largura e posição para DESCRIÇÃO
                 ctx.textAlign = 'right';
                 ctx.fillText(formatCurrency(item.precoUnit), canvas.width - marginX - 240, currentY);
                 ctx.fillText(formatCurrency(itemTotal), canvas.width - marginX, currentY);
@@ -690,9 +696,14 @@
             });
             currentY += 40; // Mais espaço
 
-            // --- Cabeçalho da Tabela para Serviços ---
-            
+            // --- Título "Serviços" ---
+            ctx.font = `bold ${baseFontSize + 6}px Arial`; // Fonte maior para o título
+            ctx.textAlign = 'center';
+            ctx.fillText('SERVIÇOS', canvas.width / 2, currentY);
+            ctx.textAlign = 'left'; // Reset para o padrão
+            currentY += baseLineHeight + 10; // Espaço após o título
 
+            // --- Cabeçalho da Tabela para Serviços ---
             ctx.font = `bold ${baseFontSize + 2}px Arial`;
             ctx.fillText('QUANT.', marginX, currentY);
             ctx.fillText('DESCRIÇÃO', marginX + 240, currentY); // Ajuste de posição
@@ -737,17 +748,26 @@
             ctx.font = 'bold 32px Arial'; // Agora 32px
             ctx.fillText('TOTAL GERAL:', canvas.width - marginX - 300, currentY); // Ajuste de posição
             ctx.fillText(formatCurrency(totalPecas + totalServicos), canvas.width - marginX, currentY);
-            ctx.textAlign = 'left';
-            currentY += 100; // Mais espaço antes do rodapé
+            currentY += baseLineHeight + 60;
 
-            // --- Rodapé ---
-            currentY = canvas.height - 80; // Posição do rodapé um pouco mais abaixo e margem um pouco maior
-            ctx.font = '20px Arial'; // Agora 20px
+            // --- Data do Orçamento ---
+            ctx.font = `${baseFontSize + 4}px Arial`; // Aumentado para 24px
+            ctx.textAlign = 'left';
+            ctx.fillText(`Ponta Grossa, ${new Date(document.getElementById('dataOrcamento').value).toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric' })}`, marginX, currentY);
+            currentY += baseLineHeight + 100; // Mais espaço para a linha de assinatura
+
+            // --- Linha de Assinatura ---
+            ctx.beginPath();
+            ctx.moveTo(marginX + 200, currentY); // Posição para a linha
+            ctx.lineTo(canvas.width - marginX - 200, currentY); // Extensão da linha
+            ctx.stroke();
+            currentY += 25;
+            ctx.font = `${baseFontSize + 4}px Arial`; // 24px
             ctx.textAlign = 'center';
-            ctx.fillText('Posto de Molas São Bento - Todos os direitos reservados.', canvas.width / 2, currentY);
-            ctx.textAlign = 'left';
-        }
+            ctx.fillText('Assinatura do Responsável', canvas.width / 2, currentY);
 
+            ctx.textAlign = 'left'; // Reset para o padrão
+        }
     </script>
 </body>
 </html>
