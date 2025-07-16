@@ -354,42 +354,42 @@
 
             <h3>Dados do Cliente</h3>
             <label for="nomeCliente">Nome:</label>
-            <input type="text" id="nomeCliente" value="MORITZ">
+            <input type="text" id="nomeCliente" value="MORITZ" placeholder="Ex: João da Silva">
 
             <label for="enderecoCliente">Endereço:</label>
-            <input type="text" id="enderecoCliente">
+            <input type="text" id="enderecoCliente" placeholder="Ex: Rua Exemplo, 123 - Centro">
 
             <label for="cidadeCliente">Cidade:</label>
-            <input type="text" id="cidadeCliente" value="Ponta Grossa">
+            <input type="text" id="cidadeCliente" value="Ponta Grossa" placeholder="Ex: Curitiba">
 
             <label for="ufCliente">UF:</label>
-            <input type="text" id="ufCliente" value="PR" maxlength="2">
+            <input type="text" id="ufCliente" value="PR" maxlength="2" placeholder="Ex: PR">
 
             <label for="emailCliente">E-mail:</label>
-            <input type="email" id="emailCliente">
+            <input type="email" id="emailCliente" placeholder="Ex: cliente@email.com">
 
             <label for="telCliente">Telefone:</label>
-            <input type="text" id="telCliente">
+            <input type="text" id="telCliente" placeholder="Ex: (42) 99999-9999">
 
             <h3>Dados do Veículo</h3>
             <label for="tipoVeiculo">Caminhão / Caminhonete:</label>
-            <input type="text" id="tipoVeiculo" value="Caminhão">
+            <input type="text" id="tipoVeiculo" value="Caminhão" placeholder="Ex: Scania P360">
 
             <label for="corVeiculo">Cor:</label>
-            <input type="text" id="corVeiculo">
+            <input type="text" id="corVeiculo" placeholder="Ex: Branco">
 
             <label for="placaVeiculo">Placa:</label>
-            <input type="text" id="placaVeiculo" value="ABC1D20">
+            <input type="text" id="placaVeiculo" value="ABC1D20" placeholder="Ex: XYZ9E87">
 
             <label for="cidadeVeiculo">Cidade Veículo:</label>
-            <input type="text" id="cidadeVeiculo">
+            <input type="text" id="cidadeVeiculo" placeholder="Ex: São Paulo">
 
             <h3>Peças</h3>
             <div class="add-item-fields">
-                <input type="number" id="newPecaQuant" value="1" min="0.1" step="0.1" placeholder="Quant.">
-                <input type="text" id="newPecaUnid" value="UNID." placeholder="Unid.">
-                <input type="text" id="newPecaProduto" class="desc-input" placeholder="Descrição da Peça">
-                <input type="number" id="newPecaPrecoUnit" value="0.00" min="0" step="0.01" placeholder="Preço Unit.">
+                <input type="number" id="newPecaQuant" value="1" min="0.1" step="0.1" placeholder="Quant. (Ex: 2)">
+                <input type="text" id="newPecaUnid" value="UNID." placeholder="Unid. (Ex: UNID., MT, KG)">
+                <input type="text" id="newPecaProduto" class="desc-input" placeholder="Descrição da Peça (Ex: Mola Parabólica)">
+                <input type="number" id="newPecaPrecoUnit" value="0.00" min="0" step="0.01" placeholder="Preço Unit. (Ex: 150.00)">
             </div>
             <div id="pecasContainer" class="item-list-container">
             </div>
@@ -397,9 +397,9 @@
 
             <h3>Serviços</h3>
             <div class="add-item-fields">
-                <input type="number" id="newServicoQuant" value="1" min="0.1" step="0.1" placeholder="Quant.">
-                <input type="text" id="newServicoProduto" class="desc-input" placeholder="Descrição do Serviço">
-                <input type="number" id="newServicoPreco" value="0.00" min="0" step="0.01" placeholder="Preço Total">
+                <input type="number" id="newServicoQuant" value="1" min="0.1" step="0.1" placeholder="Quant. (Ex: 1)">
+                <input type="text" id="newServicoProduto" class="desc-input" placeholder="Descrição do Serviço (Ex: Troca de Amortecedores)">
+                <input type="number" id="newServicoPreco" value="0.00" min="0" step="0.01" placeholder="Preço Total (Ex: 300.00)">
             </div>
             <div id="servicosContainer" class="item-list-container">
             </div>
