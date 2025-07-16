@@ -674,7 +674,7 @@
             ctx.fillText('PEÇAS:', marginX, currentY);
             currentY += baseLineHeight + 5;
 
-            // --- Cabeçalho da Tabela para Peças ---
+            // --- Cabeçalho da Tabela para Peças ---<p> peças </p>
             ctx.font = `bold ${baseFontSize + 2}px Arial`;
             ctx.fillText('QUANT.', marginX, currentY);
             ctx.fillText('UNID.', marginX + 100, currentY);
@@ -731,7 +731,7 @@
             ctx.fillText('SERVIÇOS:', marginX, currentY);
             currentY += baseLineHeight + 5;
 
-            // --- Cabeçalho da Tabela para Serviços ---
+            // --- Cabeçalho da Tabela para Serviços ---<p> serviços </p>
             ctx.font = `bold ${baseFontSize + 2}px Arial`;
             ctx.fillText('QUANT.', marginX, currentY);
             ctx.fillText('DESCRIÇÃO', marginX + 200, currentY);
