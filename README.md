@@ -10,15 +10,24 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 20px;
+            padding: 0; /* Remove default padding */
+            margin: 0; /* Remove default margin */
             background-color: #f4f4f4;
+            min-height: 100vh; /* Make body at least viewport height */
+            width: 100vw; /* Make body viewport width */
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+        h1 {
+            margin-top: 20px; /* Add some margin to the top of the title */
+            margin-bottom: 20px;
         }
         .container {
             display: flex;
             gap: 20px;
-            width: 100%;
-            max-width: 1200px;
+            width: 95%; /* Adjust to be almost full width */
+            max-width: 1400px; /* Increase max-width for larger screens if desired */
             margin-bottom: 20px;
+            flex-grow: 1; /* Allow container to grow and take available space */
         }
         .form-section {
             flex: 1;
@@ -26,6 +35,7 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow-y: auto; /* Add scroll if content is too long */
         }
         .canvas-section {
             flex: 1;
@@ -40,6 +50,8 @@
         canvas {
             border: 1px solid #ccc;
             background-color: #fcf9e7; /* Cor semelhante ao papel */
+            max-width: 100%; /* Ensure canvas scales down on smaller screens */
+            height: auto; /* Maintain aspect ratio */
         }
         h2 {
             color: #333;
@@ -145,6 +157,18 @@
             margin-bottom: 5px;
             font-weight: bold;
         }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                width: 95%;
+            }
+            .form-section, .canvas-section {
+                flex: none; /* Remove flex-grow on small screens */
+                width: 100%; /* Make them full width */
+            }
+        }
     </style>
 </head>
 <body>
@@ -238,19 +262,11 @@
         const newServicoPrecoInput = document.getElementById('newServicoPreco');
 
 
-        // Dados iniciais para as peças (do seu HTML original)
-        const initialPecas = [
-            { quant: 1, unid: "UNID.", produto: "Mola Mestre Randona", precoUnit: 221.00 },
-            { quant: 0.5, unid: "KG", produto: "Rampo 918440", precoUnit: 89.00 },
-            { quant: 0.2, unid: "KG", produto: "Porca 914430", precoUnit: 6.00 },
-            { quant: 0.4, unid: "UNID.", produto: "Parafusho 31865", precoUnit: 20.00 },
-            { quant: 0.1, unid: "UNID.", produto: "Pino de Centro 91648", precoUnit: 25.00 }
-        ];
+        // Dados iniciais para as peças - AGORA VAZIOS
+        const initialPecas = [];
 
-        // Dados iniciais para os serviços (do seu HTML original)
-        const initialServicos = [
-            { quant: 1, produto: "Manejo Carreta Carregada", preco: 120.00 }
-        ];
+        // Dados iniciais para os serviços - AGORA VAZIOS
+        const initialServicos = [];
 
         function formatCurrency(value) {
             return parseFloat(value).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
@@ -501,7 +517,6 @@
             // Rodapé
             currentY = canvas.height - 50;
             ctx.font = '10px Arial';
-            ctx.fillText('Orçamento válido por 7 dias.', marginX, currentY);
             ctx.fillText('Posto de Molas São Bento - Todos os direitos reservados.', canvas.width - marginX - ctx.measureText('Posto de Molas São Bento - Todos os direitos reservados.').width, currentY);
         }
 
