@@ -352,51 +352,51 @@
 
             <label for="numeroOrcamento">Nº Orçamento:</label>
             <div class="orcamento-numero-group">
-                <input type="text" id="numeroOrcamento" value="2894" placeholder="Ex: 2894">
+                <input type="text" id="numeroOrcamento" placeholder="Ex: 2894">
                 <button onclick="incrementOrcamento()">+</button>
             </div>
 
             <label for="dataOrcamento">Data:</label>
-            <input type="date" id="dataOrcamento" value="2025-07-16">
+            <input type="date" id="dataOrcamento">
 
             <h3>Dados do Cliente</h3>
             <label for="nomeCliente">Nome:</label>
-            <input type="text" id="nomeCliente" value="Transportadora Alfa Ltda." placeholder="Ex: João da Silva ou Empresa XYZ">
+            <input type="text" id="nomeCliente" placeholder="Ex: João da Silva ou Empresa XYZ">
 
             <label for="enderecoCliente">Endereço:</label>
-            <input type="text" id="enderecoCliente" value="Rua das Molas, 1500 - Indústria" placeholder="Ex: Rua Exemplo, 123 - Centro">
+            <input type="text" id="enderecoCliente" placeholder="Ex: Rua Exemplo, 123 - Centro">
 
             <label for="cidadeCliente">Cidade:</label>
-            <input type="text" id="cidadeCliente" value="Ponta Grossa" placeholder="Ex: Curitiba">
+            <input type="text" id="cidadeCliente" placeholder="Ex: Curitiba">
 
             <label for="ufCliente">UF:</label>
-            <input type="text" id="ufCliente" value="PR" maxlength="2" placeholder="Ex: PR">
+            <input type="text" id="ufCliente" maxlength="2" placeholder="Ex: PR">
 
             <label for="emailCliente">E-mail:</label>
-            <input type="email" id="emailCliente" value="contato@alfa.com.br" placeholder="Ex: cliente@email.com">
+            <input type="email" id="emailCliente" placeholder="Ex: cliente@email.com">
 
             <label for="telCliente">Telefone:</label>
-            <input type="text" id="telCliente" value="(42) 99934-3158" placeholder="Ex: (42) 99999-9999">
+            <input type="text" id="telCliente" placeholder="Ex: (42) 99999-9999">
 
             <h3>Dados do Veículo</h3>
             <label for="tipoVeiculo">Caminhão / Caminhonete:</label>
-            <input type="text" id="tipoVeiculo" value="Caminhão Scania R450" placeholder="Ex: Scania P360 ou Ford Ranger">
+            <input type="text" id="tipoVeiculo" placeholder="Ex: Scania P360 ou Ford Ranger">
 
             <label for="corVeiculo">Cor:</label>
-            <input type="text" id="corVeiculo" value="Azul Metálico" placeholder="Ex: Branco ou Preto">
+            <input type="text" id="corVeiculo" placeholder="Ex: Branco ou Preto">
 
             <label for="placaVeiculo">Placa:</label>
-            <input type="text" id="placaVeiculo" value="ABC1D20" placeholder="Ex: XYZ9E87">
+            <input type="text" id="placaVeiculo" placeholder="Ex: XYZ9E87">
 
             <label for="cidadeVeiculo">Cidade Veículo:</label>
-            <input type="text" id="cidadeVeiculo" value="São Paulo" placeholder="Ex: São Paulo">
+            <input type="text" id="cidadeVeiculo" placeholder="Ex: São Paulo">
 
             <h3>Peças</h3>
             <div class="add-item-fields">
-                <input type="number" id="newPecaQuant" value="2" min="0.1" step="0.1" placeholder="Quant. (Ex: 2)">
-                <input type="text" id="newPecaUnid" value="UNID." placeholder="Unid. (Ex: UNID., MT, KG)">
-                <input type="text" id="newPecaProduto" class="desc-input" value="Mola Dianteira - Semiacabada" placeholder="Descrição da Peça (Ex: Mola Parabólica)">
-                <input type="number" id="newPecaPrecoUnit" value="280.50" min="0" step="0.01" placeholder="Preço Unit. (Ex: 150.00)">
+                <input type="number" id="newPecaQuant" value="1" min="0.1" step="0.1" placeholder="Quant.">
+                <input type="text" id="newPecaUnid" value="UNID." placeholder="Unid.">
+                <input type="text" id="newPecaProduto" class="desc-input" placeholder="Descrição da Peça">
+                <input type="number" id="newPecaPrecoUnit" value="0.00" min="0" step="0.01" placeholder="Preço Unit.">
             </div>
             <div id="pecasContainer" class="item-list-container">
             </div>
@@ -404,9 +404,9 @@
 
             <h3>Serviços</h3>
             <div class="add-item-fields">
-                <input type="number" id="newServicoQuant" value="1" min="0.1" step="0.1" placeholder="Quant. (Ex: 1)">
-                <input type="text" id="newServicoProduto" class="desc-input" value="Alinhamento e Balanceamento Completo" placeholder="Descrição do Serviço (Ex: Troca de Amortecedores)">
-                <input type="number" id="newServicoPreco" value="180.00" min="0" step="0.01" placeholder="Preço Total (Ex: 300.00)">
+                <input type="number" id="newServicoQuant" value="1" min="0.1" step="0.1" placeholder="Quant.">
+                <input type="text" id="newServicoProduto" class="desc-input" placeholder="Descrição do Serviço">
+                <input type="number" id="newServicoPreco" value="0.00" min="0" step="0.01" placeholder="Preço Total">
             </div>
             <div id="servicosContainer" class="item-list-container">
             </div>
@@ -416,7 +416,7 @@
         </div>
 
         <div class="canvas-section">
-            <canvas id="orcamentoCanvas" width="1000" height="1400"></canvas>
+            <canvas id="orcamentoCanvas" width="800" height="1130"></canvas>
         </div>
     </div>
 
@@ -426,22 +426,16 @@
         const pecasContainer = document.getElementById('pecasContainer');
         const servicosContainer = document.getElementById('servicosContainer');
 
-        // Referências para os novos campos de entrada de peças
         const newPecaQuantInput = document.getElementById('newPecaQuant');
         const newPecaUnidInput = document.getElementById('newPecaUnid');
         const newPecaProdutoInput = document.getElementById('newPecaProduto');
         const newPecaPrecoUnitInput = document.getElementById('newPecaPrecoUnit');
 
-        // Referências para os novos campos de entrada de serviços
         const newServicoQuantInput = document.getElementById('newServicoQuant');
         const newServicoProdutoInput = document.getElementById('newServicoProduto');
         const newServicoPrecoInput = document.getElementById('newServicoPreco');
 
-
-        // Dados iniciais para as peças - AGORA VAZIOS
         const initialPecas = [];
-
-        // Dados iniciais para os serviços - AGORA VAZIOS
         const initialServicos = [];
 
         function formatCurrency(value) {
@@ -449,7 +443,7 @@
         }
 
         function renderPecas() {
-            pecasContainer.innerHTML = ''; // Limpa os itens existentes
+            pecasContainer.innerHTML = '';
             initialPecas.forEach((item, index) => {
                 const total = item.quant * item.precoUnit;
                 const row = document.createElement('div');
@@ -460,7 +454,7 @@
                 `;
                 pecasContainer.appendChild(row);
             });
-            drawCanvas(); // Sempre redesenha o canvas após atualizar a lista
+            drawCanvas();
         }
 
         function addPeca() {
@@ -475,9 +469,8 @@
             }
 
             initialPecas.push({ quant: quant, unid: unid, produto: produto, precoUnit: precoUnit });
-            renderPecas(); // Re-renderiza a lista de peças
+            renderPecas();
 
-            // Limpa os campos após adicionar
             newPecaQuantInput.value = "1";
             newPecaUnidInput.value = "UNID.";
             newPecaProdutoInput.value = "";
@@ -485,12 +478,12 @@
         }
 
         function removePeca(index) {
-            initialPecas.splice(index, 1); // Remove o item do array
-            renderPecas(); // Re-renderiza a lista
+            initialPecas.splice(index, 1);
+            renderPecas();
         }
 
         function renderServicos() {
-            servicosContainer.innerHTML = ''; // Limpa os itens existentes
+            servicosContainer.innerHTML = '';
             initialServicos.forEach((item, index) => {
                 const total = item.quant * item.preco;
                 const row = document.createElement('div');
@@ -501,7 +494,7 @@
                 `;
                 servicosContainer.appendChild(row);
             });
-            drawCanvas(); // Sempre redesenha o canvas após atualizar a lista
+            drawCanvas();
         }
 
         function addServico() {
@@ -515,58 +508,59 @@
             }
 
             initialServicos.push({ quant: quant, produto: produto, preco: preco });
-            renderServicos(); // Re-renderiza a lista de serviços
+            renderServicos();
 
-            // Limpa os campos após adicionar
             newServicoQuantInput.value = "1";
             newServicoProdutoInput.value = "";
             newServicoPrecoInput.value = "0.00";
         }
 
         function removeServico(index) {
-            initialServicos.splice(index, 1); // Remove o item do array
-            renderServicos(); // Re-renderiza a lista
+            initialServicos.splice(index, 1);
+            renderServicos();
         }
 
-        // Function to increment the budget number
         function incrementOrcamento() {
             const numeroOrcamentoInput = document.getElementById('numeroOrcamento');
             let currentNumber = parseInt(numeroOrcamentoInput.value, 10);
             if (!isNaN(currentNumber)) {
                 numeroOrcamentoInput.value = currentNumber + 1;
             } else {
-                numeroOrcamentoInput.value = "1"; // Default if not a number
+                numeroOrcamentoInput.value = "1";
             }
-            drawCanvas(); // Redraw canvas to reflect the new number
+            drawCanvas();
         }
 
-        // Função para salvar o canvas como PDF
         function saveCanvasAsPdf() {
-            // Desenha o canvas uma última vez para garantir que está atualizado
             drawCanvas();
-
-            // Abre a janela de impressão do navegador
-            // A `@media print` no CSS cuidará de mostrar apenas o canvas
             window.print();
         }
 
-        // Adiciona um listener para atualizar o canvas quando os dados do cliente/veículo mudam
-        document.querySelectorAll('#numeroOrcamento, #dataOrcamento, #nomeCliente, #enderecoCliente, #cidadeCliente, #ufCliente, #emailCliente, #telCliente, #tipoVeiculo, #corVeiculo, #placaVeiculo, #cidadeVeiculo').forEach(input => {
+        document.querySelectorAll('input, select').forEach(input => {
             input.addEventListener('input', drawCanvas);
         });
 
-        // Chama as funções de renderização no carregamento para exibir os dados iniciais
         document.addEventListener('DOMContentLoaded', () => {
+            const today = new Date();
+            const day = String(today.getDate()).padStart(2, '0');
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const year = today.getFullYear();
+            document.getElementById('dataOrcamento').value = `${year}-${month}-${day}`;
+
             renderPecas();
             renderServicos();
-            drawCanvas(); // Garante que o canvas seja desenhado no carregamento com os dados iniciais
+            drawCanvas();
         });
 
-        // Função para quebrar texto
         function wrapText(context, text, x, y, maxWidth, lineHeight) {
             let words = text.split(' ');
             let line = '';
             let lines = [];
+
+            if (!text.trim()) {
+                context.fillText('___________________', x, y); // Linha sublinhada para campo vazio
+                return 1;
+            }
 
             for (let n = 0; n < words.length; n++) {
                 let testLine = line + words[n] + ' ';
@@ -584,46 +578,42 @@
             for (let i = 0; i < lines.length; i++) {
                 context.fillText(lines[i], x, y + (i * lineHeight));
             }
-            return lines.length; // Retorna o número de linhas usadas
+            return lines.length;
         }
 
         function drawCanvas() {
-            // Limpa o canvas
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            // Define a cor de fundo
-            ctx.fillStyle = '#fcf9e7'; // Cor semelhante ao papel
+            ctx.fillStyle = '#fcf9e7';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            // Define o estilo de desenho
             ctx.fillStyle = '#333';
             ctx.strokeStyle = '#555';
-            ctx.lineWidth = 1;
+            ctx.lineWidth = 1.5;
 
-            // Definindo um tamanho de fonte base e um lineHeight para todos os textos
-            // Aumentei os valores ainda mais para esta versão
-            const baseFontSize = 20; // Agora 20px
-            const baseLineHeight = 35; // Agora 35px
-            let currentY = 80; // Margem superior um pouco maior
-            const marginX = 80; // Margem lateral um pouco maior
+            const baseFontSize = 18; // Tamanho de fonte base
+            const baseLineHeight = 30; // Altura da linha base
+            let currentY = 70; // Margem superior
+            const marginX = 70; // Margem lateral
+            const infoOffset = 380; // Offset para a segunda coluna de informações
 
             // --- Cabeçalho ---
-            ctx.font = 'bold 36px Arial'; // Aumentado para 36px
+            ctx.font = 'bold 38px Arial'; // Tamanho do título aumentado para 38px
             ctx.fillText('POSTO DE MOLAS SÃO BENTO', marginX, currentY);
             ctx.textAlign = 'right';
+            ctx.font = 'bold 32px Arial';
             ctx.fillText('ORÇAMENTO', canvas.width - marginX, currentY);
             ctx.textAlign = 'left';
-            currentY += 50; // Mais espaço
+            currentY += 45;
 
-            ctx.font = 'bold 26px Arial'; // Aumentado para 26px
+            ctx.font = 'bold 24px Arial';
             ctx.fillText('PEÇAS E SERVIÇOS', marginX, currentY);
             ctx.textAlign = 'right';
-            ctx.fillText(`Nº ${document.getElementById('numeroOrcamento').value}`, canvas.width - marginX, currentY);
+            const numeroOrcamento = document.getElementById('numeroOrcamento').value || 'Não Informado';
+            ctx.fillText(`Nº ${numeroOrcamento}`, canvas.width - marginX, currentY);
             ctx.textAlign = 'left';
-            currentY += 60; // Mais espaço
+            currentY += 55;
 
             // --- Informações da Empresa ---
-            ctx.font = `${baseFontSize}px Arial`; // Agora 20px
+            ctx.font = `${baseFontSize}px Arial`;
             ctx.fillText('Suspensão de Caminhão e Caminhonete', marginX, currentY);
             currentY += baseLineHeight - 5;
             ctx.fillText('Alinhamento e Balanceamento - Suspensão a Ar', marginX, currentY);
@@ -634,35 +624,60 @@
             ctx.textAlign = 'left';
             currentY += baseLineHeight - 5;
             ctx.fillText('postodemolassaobento@gmail.com - Av. Souza Naves, 4250 - CEP 84064-000 - Ponta Grossa / PR', marginX, currentY);
-            currentY += 60; // Mais espaço
+            currentY += 70; // Mais espaço
 
             // --- Detalhes do Cliente e Veículo ---
-            ctx.font = `bold ${baseFontSize + 4}px Arial`; // Agora 24px
+            ctx.font = `bold ${baseFontSize + 4}px Arial`;
             ctx.fillText('DADOS DO CLIENTE E VEÍCULO', marginX, currentY);
             currentY += baseLineHeight + 10;
-            ctx.font = `${baseFontSize}px Arial`; // Fonte base 20px
-            ctx.fillText(`Nome: ${document.getElementById('nomeCliente').value}`, marginX, currentY);
-            ctx.fillText(`Endereço: ${document.getElementById('enderecoCliente').value}`, marginX + 400, currentY); // Ajuste de posição
-            currentY += baseLineHeight;
-            ctx.fillText(`Cidade/UF: ${document.getElementById('cidadeCliente').value}/${document.getElementById('ufCliente').value}`, marginX, currentY);
-            ctx.fillText(`E-mail: ${document.getElementById('emailCliente').value}`, marginX + 400, currentY); // Ajuste de posição
-            currentY += baseLineHeight;
-            ctx.fillText(`Telefone: ${document.getElementById('telCliente').value}`, marginX, currentY);
-            currentY += baseLineHeight;
-            ctx.fillText(`Veículo: ${document.getElementById('tipoVeiculo').value}`, marginX, currentY);
-            ctx.fillText(`Cor: ${document.getElementById('corVeiculo').value}`, marginX + 400, currentY); // Ajuste de posição
-            currentY += baseLineHeight;
-            ctx.fillText(`Placa: ${document.getElementById('placaVeiculo').value}`, marginX, currentY);
-            ctx.fillText(`Cidade Veículo: ${document.getElementById('cidadeVeiculo').value}`, marginX + 400, currentY); // Ajuste de posição
-            currentY += 60; // Mais espaço
+            ctx.font = `${baseFontSize}px Arial`;
 
-            // --- Cabeçalho da Tabela para Itens ---<p style="text-align: center;">Peças</p>
-            ctx.font = `bold ${baseFontSize + 2}px Arial`; // Agora 22px
+            const nomeCliente = document.getElementById('nomeCliente').value || 'Não Informado';
+            const enderecoCliente = document.getElementById('enderecoCliente').value || 'Não Informado';
+            const cidadeCliente = document.getElementById('cidadeCliente').value || 'Não Informado';
+            const ufCliente = document.getElementById('ufCliente').value || 'Não Informado';
+            const emailCliente = document.getElementById('emailCliente').value || 'Não Informado';
+            const telCliente = document.getElementById('telCliente').value || 'Não Informado';
+
+            const tipoVeiculo = document.getElementById('tipoVeiculo').value || 'Não Informado';
+            const corVeiculo = document.getElementById('corVeiculo').value || 'Não Informado';
+            const placaVeiculo = document.getElementById('placaVeiculo').value || 'Não Informado';
+            const cidadeVeiculo = document.getElementById('cidadeVeiculo').value || 'Não Informado';
+            const dataOrcamento = document.getElementById('dataOrcamento').value;
+            const formattedDate = dataOrcamento ? new Date(dataOrcamento + 'T12:00:00').toLocaleDateString('pt-BR', {day: '2-digit', month: '2-digit', year: 'numeric'}) : 'Não Informado';
+
+            ctx.fillText(`Data: ${formattedDate}`, marginX, currentY);
+            ctx.fillText(`Nome: ${nomeCliente}`, marginX + infoOffset, currentY);
+            currentY += baseLineHeight;
+
+            ctx.fillText(`Endereço: ${enderecoCliente}`, marginX, currentY);
+            ctx.fillText(`Cidade/UF: ${cidadeCliente}/${ufCliente}`, marginX + infoOffset, currentY);
+            currentY += baseLineHeight;
+
+            ctx.fillText(`E-mail: ${emailCliente}`, marginX, currentY);
+            ctx.fillText(`Telefone: ${telCliente}`, marginX + infoOffset, currentY);
+            currentY += baseLineHeight;
+
+            ctx.fillText(`Veículo: ${tipoVeiculo}`, marginX, currentY);
+            ctx.fillText(`Cor: ${corVeiculo}`, marginX + infoOffset, currentY);
+            currentY += baseLineHeight;
+
+            ctx.fillText(`Placa: ${placaVeiculo}`, marginX, currentY);
+            ctx.fillText(`Cidade Veículo: ${cidadeVeiculo}`, marginX + infoOffset, currentY);
+            currentY += 80; // Mais espaço
+
+            // --- Título da Seção de Peças ---
+            ctx.font = `bold ${baseFontSize + 4}px Arial`;
+            ctx.fillText('PEÇAS:', marginX, currentY);
+            currentY += baseLineHeight + 5;
+
+            // --- Cabeçalho da Tabela para Peças ---<p style="text-align: center;">Peças</p>
+            ctx.font = `bold ${baseFontSize + 2}px Arial`;
             ctx.fillText('QUANT.', marginX, currentY);
-            ctx.fillText('UNID.', marginX + 120, currentY); // Ajuste de posição
-            ctx.fillText('DESCRIÇÃO', marginX + 240, currentY); // Ajuste de posição
+            ctx.fillText('UNID.', marginX + 100, currentY);
+            ctx.fillText('DESCRIÇÃO', marginX + 200, currentY);
             ctx.textAlign = 'right';
-            ctx.fillText('VALOR UNIT.', canvas.width - marginX - 240, currentY); // Ajuste de posição
+            ctx.fillText('VALOR UNIT.', canvas.width - marginX - 200, currentY);
             ctx.fillText('TOTAL', canvas.width - marginX, currentY);
             ctx.textAlign = 'left';
             currentY += 10;
@@ -670,31 +685,54 @@
             ctx.moveTo(marginX, currentY);
             ctx.lineTo(canvas.width - marginX, currentY);
             ctx.stroke();
-            currentY += baseLineHeight + 5; // Mais espaço
+            currentY += baseLineHeight;
 
-            ctx.font = `${baseFontSize}px Arial`; // Agora 20px para os itens
+            ctx.font = `${baseFontSize}px Arial`;
             let totalPecas = 0;
-            // Desenha as Peças
-            initialPecas.forEach(item => {
-                const itemTotal = item.quant * item.precoUnit;
-                ctx.fillText(item.quant.toFixed(2), marginX, currentY);
-                ctx.fillText(item.unid, marginX + 120, currentY);
-                const linesUsed = wrapText(ctx, item.produto, marginX + 240, currentY, 400, baseLineHeight - 5); // Largura e lineHeight para descrição
+            let pecasLinesCount = 0;
+            const maxPecasLines = 6;
+
+            if (initialPecas.length > 0) {
+                initialPecas.forEach(item => {
+                    if (pecasLinesCount < maxPecasLines) {
+                        const itemTotal = item.quant * item.precoUnit;
+                        ctx.fillText(item.quant.toFixed(2), marginX, currentY);
+                        ctx.fillText(item.unid, marginX + 100, currentY);
+                        const linesUsed = wrapText(ctx, item.produto, marginX + 200, currentY, 280, baseLineHeight - 8);
+                        ctx.textAlign = 'right';
+                        ctx.fillText(formatCurrency(item.precoUnit), canvas.width - marginX - 200, currentY);
+                        ctx.fillText(formatCurrency(itemTotal), canvas.width - marginX, currentY);
+                        ctx.textAlign = 'left';
+                        totalPecas += itemTotal;
+                        currentY += (linesUsed * (baseLineHeight - 8));
+                        pecasLinesCount += linesUsed;
+                    }
+                });
+            }
+
+            for (let i = pecasLinesCount; i < maxPecasLines; i++) {
+                ctx.fillText('0.00', marginX, currentY);
+                ctx.fillText('_______', marginX + 100, currentY);
+                wrapText(ctx, '', marginX + 200, currentY, 280, baseLineHeight - 8);
                 ctx.textAlign = 'right';
-                ctx.fillText(formatCurrency(item.precoUnit), canvas.width - marginX - 240, currentY);
-                ctx.fillText(formatCurrency(itemTotal), canvas.width - marginX, currentY);
+                ctx.fillText('R$ 0,00', canvas.width - marginX - 200, currentY);
+                ctx.fillText('R$ 0,00', canvas.width - marginX, currentY);
                 ctx.textAlign = 'left';
-                totalPecas += itemTotal;
-                currentY += (linesUsed * (baseLineHeight - 5)); // Ajusta Y pela quantidade de linhas usadas
-            });
-            currentY += 40; // Mais espaço
+                currentY += baseLineHeight - 8;
+            }
+            currentY += 50;
+
+            // --- Título da Seção de Serviços ---
+            ctx.font = `bold ${baseFontSize + 4}px Arial`;
+            ctx.fillText('SERVIÇOS:', marginX, currentY);
+            currentY += baseLineHeight + 5;
 
             // --- Cabeçalho da Tabela para Serviços ---<p style="text-align: center;">Serviços</p>
             ctx.font = `bold ${baseFontSize + 2}px Arial`;
             ctx.fillText('QUANT.', marginX, currentY);
-            ctx.fillText('DESCRIÇÃO', marginX + 240, currentY); // Ajuste de posição
+            ctx.fillText('DESCRIÇÃO', marginX + 200, currentY);
             ctx.textAlign = 'right';
-            ctx.fillText('VALOR UNIT.', canvas.width - marginX - 240, currentY); // Ajuste de posição
+            ctx.fillText('VALOR UNIT.', canvas.width - marginX - 200, currentY);
             ctx.fillText('TOTAL', canvas.width - marginX, currentY);
             ctx.textAlign = 'left';
             currentY += 10;
@@ -702,49 +740,66 @@
             ctx.moveTo(marginX, currentY);
             ctx.lineTo(canvas.width - marginX, currentY);
             ctx.stroke();
-            currentY += baseLineHeight + 5;
+            currentY += baseLineHeight;
 
-            ctx.font = `${baseFontSize}px Arial`; // Agora 20px para os itens
+            ctx.font = `${baseFontSize}px Arial`;
             let totalServicos = 0;
-            // Desenha os Serviços
-            initialServicos.forEach(item => {
-                const itemTotal = item.quant * item.preco;
-                ctx.fillText(item.quant.toFixed(2), marginX, currentY);
-                const linesUsed = wrapText(ctx, item.produto, marginX + 240, currentY, 400, baseLineHeight - 5); // Largura e lineHeight para descrição
+            let servicosLinesCount = 0;
+            const maxServicosLines = 6;
+
+            if (initialServicos.length > 0) {
+                initialServicos.forEach(item => {
+                    if (servicosLinesCount < maxServicosLines) {
+                        const itemTotal = item.quant * item.preco;
+                        ctx.fillText(item.quant.toFixed(2), marginX, currentY);
+                        const linesUsed = wrapText(ctx, item.produto, marginX + 200, currentY, 280, baseLineHeight - 8);
+                        ctx.textAlign = 'right';
+                        ctx.fillText(formatCurrency(item.preco), canvas.width - marginX - 200, currentY);
+                        ctx.fillText(formatCurrency(itemTotal), canvas.width - marginX, currentY);
+                        ctx.textAlign = 'left';
+                        totalServicos += itemTotal;
+                        currentY += (linesUsed * (baseLineHeight - 8));
+                        servicosLinesCount += linesUsed;
+                    }
+                });
+            }
+
+            for (let i = servicosLinesCount; i < maxServicosLines; i++) {
+                ctx.fillText('0.00', marginX, currentY);
+                wrapText(ctx, '', marginX + 200, currentY, 280, baseLineHeight - 8);
                 ctx.textAlign = 'right';
-                ctx.fillText(formatCurrency(item.preco), canvas.width - marginX - 240, currentY);
-                ctx.fillText(formatCurrency(itemTotal), canvas.width - marginX, currentY);
+                ctx.fillText('R$ 0,00', canvas.width - marginX - 200, currentY);
+                ctx.fillText('R$ 0,00', canvas.width - marginX, currentY);
                 ctx.textAlign = 'left';
-                totalServicos += itemTotal;
-                currentY += (linesUsed * (baseLineHeight - 5)); // Ajusta Y pela quantidade de linhas usadas
-            });
-            currentY += 50; // Mais espaço
+                currentY += baseLineHeight - 8;
+            }
+            currentY += 60;
 
             // --- Totais ---
-            ctx.font = `bold ${baseFontSize + 6}px Arial`; // Agora 26px
+            ctx.font = `bold ${baseFontSize + 6}px Arial`;
             ctx.textAlign = 'right';
-            ctx.fillText('TOTAL DE PEÇAS:', canvas.width - marginX - 300, currentY); // Ajuste de posição
+            ctx.fillText('TOTAL DE PEÇAS:', canvas.width - marginX - 250, currentY);
             ctx.fillText(formatCurrency(totalPecas), canvas.width - marginX, currentY);
             currentY += baseLineHeight + 15;
 
-            ctx.fillText('TOTAL DE SERVIÇOS:', canvas.width - marginX - 300, currentY); // Ajuste de posição
+            ctx.fillText('TOTAL DE SERVIÇOS:', canvas.width - marginX - 250, currentY);
             ctx.fillText(formatCurrency(totalServicos), canvas.width - marginX, currentY);
             currentY += baseLineHeight + 15;
 
-            ctx.font = 'bold 32px Arial'; // Agora 32px
-            ctx.fillText('TOTAL GERAL:', canvas.width - marginX - 300, currentY); // Ajuste de posição
+            ctx.font = 'bold 30px Arial';
+            ctx.fillText('TOTAL GERAL:', canvas.width - marginX - 250, currentY);
             ctx.fillText(formatCurrency(totalPecas + totalServicos), canvas.width - marginX, currentY);
+
             ctx.textAlign = 'left';
-            currentY += 100; // Mais espaço antes do rodapé
+            // Ajusta a posição Y do rodapé para ficar a 70px da parte inferior do canvas
+            currentY = canvas.height - 70;
 
             // --- Rodapé ---
-            currentY = canvas.height - 80; // Posição do rodapé um pouco mais abaixo e margem um pouco maior
-            ctx.font = '20px Arial'; // Agora 20px
+            ctx.font = '18px Arial';
             ctx.textAlign = 'center';
             ctx.fillText('Posto de Molas São Bento - Todos os direitos reservados.', canvas.width / 2, currentY);
             ctx.textAlign = 'left';
         }
-
     </script>
 </body>
 </html>
