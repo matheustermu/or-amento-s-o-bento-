@@ -345,7 +345,7 @@
 
             <label for="numeroOrcamento">Nº Orçamento:</label>
             <div class="orcamento-numero-group">
-                <input type="text" id="numeroOrcamento" value="2894">
+                <input type="text" id="numeroOrcamento" value="2894" placeholder="Ex: 2894">
                 <button onclick="incrementOrcamento()">+</button>
             </div>
 
