@@ -157,6 +157,32 @@
             margin-bottom: 5px;
             font-weight: bold;
         }
+        .orcamento-numero-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px; /* Adjust as needed */
+        }
+        .orcamento-numero-group input {
+            margin-bottom: 0; /* Remove default margin */
+            flex-grow: 1;
+        }
+        .orcamento-numero-group button {
+            width: auto; /* Allow button to size naturally */
+            padding: 8px 12px; /* Adjust padding */
+            margin-left: 5px; /* Space between input and button */
+            margin-top: 0; /* Remove default margin-top */
+            background-color: #007bff; /* Blue for increment button */
+        }
+        .orcamento-numero-group button:hover {
+            background-color: #0056b3;
+        }
+        /* Estilo para o botão de Salvar PDF */
+        #savePdfButton {
+            background-color: #17a2b8; /* Cor azul-ciano */
+        }
+        #savePdfButton:hover {
+            background-color: #138496;
+        }
 
         /* Responsive adjustments */
         @media (max-width: 768px) {
@@ -178,7 +204,11 @@
             <h2>Dados do Orçamento</h2>
 
             <label for="numeroOrcamento">Nº Orçamento:</label>
-            <input type="text" id="numeroOrcamento" value="2894">
+            <div class="orcamento-numero-group">
+                <input type="text" id="numeroOrcamento" value="2894">
+                <button onclick="incrementOrcamento()">+</button>
+            </div>
+
 
             <label for="dataOrcamento">Data:</label>
             <input type="date" id="dataOrcamento" value="2025-07-16">
@@ -237,6 +267,7 @@
             <button onclick="addServico()">Adicionar Serviço</button>
 
             <button onclick="drawCanvas()">Gerar Orçamento no Canvas</button>
+            <button id="savePdfButton" onclick="saveCanvasAsPdf()">Salvar PDF</button>
         </div>
 
         <div class="canvas-section">
@@ -351,6 +382,29 @@
             initialServicos.splice(index, 1); // Remove o item do array
             renderServicos(); // Re-renderiza a lista
         }
+
+        // Function to increment the budget number
+        function incrementOrcamento() {
+            const numeroOrcamentoInput = document.getElementById('numeroOrcamento');
+            let currentNumber = parseInt(numeroOrcamentoInput.value, 10);
+            if (!isNaN(currentNumber)) {
+                numeroOrcamentoInput.value = currentNumber + 1;
+            } else {
+                numeroOrcamentoInput.value = "1"; // Default if not a number
+            }
+            drawCanvas(); // Redraw canvas to reflect the new number
+        }
+
+        // Função para salvar o canvas como PDF
+        function saveCanvasAsPdf() {
+            // Desenha o canvas uma última vez para garantir que está atualizado
+            drawCanvas();
+
+            // Abre a janela de impressão do navegador
+            // Na janela de impressão, o usuário pode selecionar "Salvar como PDF"
+            window.print();
+        }
+
 
         // Chama as funções de renderização no carregamento para exibir os dados iniciais
         document.addEventListener('DOMContentLoaded', () => {
