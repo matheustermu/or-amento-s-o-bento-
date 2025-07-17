@@ -1,5 +1,24 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+  <script>
+    // CÓDIGO DA SENHA - ADICIONE ESTE BLOCO NO INÍCIO DO SEU SCRIPT
+    const CORRECT_PASSWORD = "102030";
+    let passwordEntered = false;
+
+    while (!passwordEntered) {
+        const userInput = prompt("Por favor, digite a senha para acessar o gerador de orçamento:");
+        if (userInput === CORRECT_PASSWORD) {
+            passwordEntered = true;
+            alert("Senha correta! Bem-vindo ao Gerador de Orçamento.");
+        } else {
+            alert("Senha incorreta. Tente novamente.");
+        }
+    }
+    // FIM DO CÓDIGO DA SENHA
+
+    // O restante do seu código JavaScript existente (funções, event listeners, etc.)
+    // deve vir AQUI, depois do bloco da senha.
+</script>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
