@@ -164,7 +164,7 @@
             font-size: 0.95em;
         }
 
-        input:where([type="text"], [type="number"], [type="email"], [type="date"]),
+        input:where([type="text"], [type="number"], [type="email"], [type="date"])[type="QUEM FEZ"],,
         select {
             width: calc(100% - 20px); /* Ajusta padding */
             padding: 10px;
