@@ -1,6 +1,6 @@
-<!DOCTYPE html>
+
 <html lang="pt-BR">
- <!DOCTYPE html>
+
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -46,8 +46,7 @@
 <body>
 
    
-        <h1</p>
-        </div>
+       
     </div>
 
     <script>
