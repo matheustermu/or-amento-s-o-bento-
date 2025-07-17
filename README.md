@@ -1,10 +1,51 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>or-amento-s-o-bento-</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="or-amento-s-o-bento-" />
+<meta property="og:locale" content="en_US" />
+<link rel="canonical" href="https://matheustermu.github.io/or-amento-s-o-bento-/" />
+<meta property="og:url" content="https://matheustermu.github.io/or-amento-s-o-bento-/" />
+<meta property="og:site_name" content="or-amento-s-o-bento-" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="or-amento-s-o-bento-" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","headline":"or-amento-s-o-bento-","name":"or-amento-s-o-bento-","url":"https://matheustermu.github.io/or-amento-s-o-bento-/"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="stylesheet" href="/or-amento-s-o-bento-/assets/css/style.css?v=f81e55b259e208fa3e2fbd3b64a8927eb2c7c321">
+    <!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
+
+<!-- Setup Google Analytics -->
+
+
+
+<!-- You can set your favicon here -->
+<!-- link rel="shortcut icon" type="image/x-icon" href="/or-amento-s-o-bento-/favicon.ico" -->
+
+<!-- end custom head snippets -->
+
+  </head>
+  <body>
+    <div class="container-lg px-3 my-5 markdown-body">
+      
+      <h1><a href="https://matheustermu.github.io/or-amento-s-o-bento-/">or-amento-s-o-bento-</a></h1>
+      
+
+      
 <html lang="pt-BR">
 
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Página Protegida</title>
     <style>
         body {
@@ -47,7 +88,7 @@
 
    
        
-    </div>
+    &lt;/div&gt;
 
     <script>
         const CORRECT_PASSWORD = "102030";
@@ -70,10 +111,10 @@
 </body>
 </html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gerador de Orçamento - Posto de Molas São Bento</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&amp;display=swap" rel="stylesheet" />
     <style>
         :root {
             --primary-color: #007bff; /* Azul primário */
@@ -438,57 +479,57 @@
 
             <label for="numeroOrcamento">Nº Orçamento:</label>
             <div class="orcamento-numero-group">
-                <input type="text" id="numeroOrcamento" placeholder="Ex: 2894">
+                <input type="text" id="numeroOrcamento" placeholder="Ex: 2894" />
                 <button onclick="incrementOrcamento()">+</button>
             </div>
 
             <label for="dataOrcamento">Data:</label>
-            <input type="date" id="dataOrcamento">
+            <input type="date" id="dataOrcamento" />
 
             <h3>Dados do Cliente</h3>
             <label for="nomeCliente">Nome:</label>
-            <input type="text" id="nomeCliente" placeholder="Ex: João da Silva ou Empresa XYZ">
+            <input type="text" id="nomeCliente" placeholder="Ex: João da Silva ou Empresa XYZ" />
 
             <label for="cpfCnpjCliente">CPF/CNPJ:</label>
-            <input type="text" id="cpfCnpjCliente" placeholder="Ex: 123.456.789-00 ou 12.345.678/0001-90">
+            <input type="text" id="cpfCnpjCliente" placeholder="Ex: 123.456.789-00 ou 12.345.678/0001-90" />
 
             <label for="enderecoCliente">Endereço:</label>
-            <input type="text" id="enderecoCliente" placeholder="Ex: Rua Exemplo, 123 - Centro">
+            <input type="text" id="enderecoCliente" placeholder="Ex: Rua Exemplo, 123 - Centro" />
 
             <label for="cidadeCliente">Cidade:</label>
-            <input type="text" id="cidadeCliente" placeholder="Ex: Curitiba">
+            <input type="text" id="cidadeCliente" placeholder="Ex: Curitiba" />
 
             <label for="ufCliente">UF:</label>
-            <input type="text" id="ufCliente" maxlength="2" placeholder="Ex: PR">
+            <input type="text" id="ufCliente" maxlength="2" placeholder="Ex: PR" />
 
             <label for="emailCliente">E-mail:</label>
-            <input type="email" id="emailCliente" placeholder="Ex: cliente@email.com">
+            <input type="email" id="emailCliente" placeholder="Ex: cliente@email.com" />
 
             <label for="telCliente">Telefone:</label>
-            <input type="text" id="telCliente" placeholder="Ex: (42) 99999-9999">
+            <input type="text" id="telCliente" placeholder="Ex: (42) 99999-9999" />
 
             <h3>Dados do Veículo</h3>
             <label for="tipoVeiculo">Caminhão / Caminhonete:</label>
-            <input type="text" id="tipoVeiculo" placeholder="Ex: Scania P360 ou Ford Ranger">
+            <input type="text" id="tipoVeiculo" placeholder="Ex: Scania P360 ou Ford Ranger" />
 
             <label for="corVeiculo">Cor:</label>
-            <input type="text" id="corVeiculo" placeholder="Ex: Branco ou Preto">
+            <input type="text" id="corVeiculo" placeholder="Ex: Branco ou Preto" />
 
             <label for="placaVeiculo">Placa:</label>
-            <input type="text" id="placaVeiculo" placeholder="Ex: XYZ9E87">
+            <input type="text" id="placaVeiculo" placeholder="Ex: XYZ9E87" />
 
             <label for="cidadeVeiculo">Cidade Veículo:</label>
-            <input type="text" id="cidadeVeiculo" placeholder="Ex: São Paulo">
+            <input type="text" id="cidadeVeiculo" placeholder="Ex: São Paulo" />
 
        <label for="QUEM FEZ "> QUEM FEZ:</label>
-            <input type="text" id="QUEM FEZ" placeholder="Ex:QUEM FEZ">
+            <input type="text" id="QUEM FEZ" placeholder="Ex:QUEM FEZ" />
             E
             <h3>Peças</h3>
             <div class="add-item-fields">
-                <input type="number" id="newPecaQuant" value="1" min="0.1" step="0.1" placeholder="Quant. (Ex: 1)">
-                <input type="text" id="newPecaUnid" value="UNID." placeholder="Unid. (Ex: UNID., MT, KG)">
-                <input type="text" id="newPecaProduto" class="desc-input" placeholder="Descrição da Peça (Ex: Mola Parabólica)">
-                <input type="number" id="newPecaPrecoUnit" value="0.00" min="0" step="0.01" placeholder="Preço Unit. (Ex: 150.00)">
+                <input type="number" id="newPecaQuant" value="1" min="0.1" step="0.1" placeholder="Quant. (Ex: 1)" />
+                <input type="text" id="newPecaUnid" value="UNID." placeholder="Unid. (Ex: UNID., MT, KG)" />
+                <input type="text" id="newPecaProduto" class="desc-input" placeholder="Descrição da Peça (Ex: Mola Parabólica)" />
+                <input type="number" id="newPecaPrecoUnit" value="0.00" min="0" step="0.01" placeholder="Preço Unit. (Ex: 150.00)" />
             </div>
             <div id="pecasContainer" class="item-list-container">
             </div>
@@ -496,9 +537,9 @@
 
             <h3>Serviços</h3>
             <div class="add-item-fields">
-                <input type="number" id="newServicoQuant" value="1" min="0.1" step="0.1" placeholder="Quant. (Ex: 1)">
-                <input type="text" id="newServicoProduto" class="desc-input" placeholder="Descrição do Serviço (Ex: Troca de Amortecedores)">
-                <input type="number" id="newServicoPreco" value="0.00" min="0" step="0.01" placeholder="Preço Total (Ex: 300.00)">
+                <input type="number" id="newServicoQuant" value="1" min="0.1" step="0.1" placeholder="Quant. (Ex: 1)" />
+                <input type="text" id="newServicoProduto" class="desc-input" placeholder="Descrição do Serviço (Ex: Troca de Amortecedores)" />
+                <input type="number" id="newServicoPreco" value="0.00" min="0" step="0.01" placeholder="Preço Total (Ex: 300.00)" />
             </div>
             <div id="servicosContainer" class="item-list-container">
             </div>
@@ -506,7 +547,7 @@
 
             <h3>Desconto</h3>
             <label for="descontoValor">Valor do Desconto:</label>
-            <input type="number" id="descontoValor" value="0.00" min="0" step="0.01" placeholder="Ex: 50.00">
+            <input type="number" id="descontoValor" value="0.00" min="0" step="0.01" placeholder="Ex: 50.00" />
 
             <button id="savePdfButton" onclick="saveCanvasAsPdf()">Salvar/Imprimir PDF</button>
         </div>
@@ -809,7 +850,8 @@
             const corVeiculo = document.getElementById('corVeiculo').value.trim();
             const placaVeiculo = document.getElementById('placaVeiculo').value.trim();
             const cidadeVeiculo = document.getElementById('cidadeVeiculo').value.trim();
-           
+            const QUEM FEZ = document.getElementById('QUEM FEZ').value.trim();
+            
             // CORREÇÃO: "Não informado" para campos vazios
             currentPageCtx.fillText(`Nome: ${nomeCliente === '' ? 'Não informado' : nomeCliente}`, MARGIN_X, currentPageY);
             currentPageCtx.fillText(`CPF/CNPJ: ${cpfCnpjCliente === '' ? 'Não informado' : cpfCnpjCliente}`, MARGIN_X + 400, currentPageY);
@@ -826,7 +868,7 @@
             currentPageCtx.fillText(`Placa: ${placaVeiculo === '' ? 'Não informado' : placaVeiculo}`, MARGIN_X, currentPageY);
             currentPageCtx.fillText(`Cidade Veículo: ${cidadeVeiculo === '' ? 'Não informado' : cidadeVeiculo}`, MARGIN_X + 400, currentPageY);
             currentPageY += BASE_LINE_HEIGHT + 20; // REDUZIDO
-          
+            currentPageCtx.fillText(`QUEM FEZ ${QUEM FEZ === '' ? 'Não informado' : QUEM FEZ}`, MARGIN_X, currentPageY);
             // --- Seção de Peças ---
             let pecasSectionTitleHeight = BASE_LINE_HEIGHT + 6 + 10;
             let pecasTableHeaderHeight = (BASE_FONT_SIZE + 2 + 10) + (SMALL_LINE_HEIGHT + 5);
@@ -1017,4 +1059,12 @@
         }
     </script>
 </body>
+</html>
+
+
+      
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+    <script>anchors.add();</script>
+  </body>
 </html>
