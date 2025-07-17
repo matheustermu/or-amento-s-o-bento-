@@ -1,5 +1,78 @@
 <!DOCTYPE html>
+<html lang="pt-BR"><!DOCTYPE html>
 <html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Protegida</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f2f5;
+            color: #333;
+            text-align: center;
+            flex-direction: column;
+        }
+        .content {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 90%;
+            display: none; /* Esconde o conteúdo por padrão */
+        }
+        h1 {
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+        .footer {
+            margin-top: 30px;
+            font-size: 0.85em;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="content" id="protectedContent">
+        <h1>Bem-vindo à Página Protegida!</h1>
+        <p>Este é o conteúdo que só pode ser acessado após a digitação da senha correta.</p>
+        <p>Você pode colocar aqui qualquer informação, links ou ferramentas que deseja proteger.</p>
+        <div class="footer">
+            <p>Conteúdo exclusivo do Gerador de Orçamento.</p>
+        </div>
+    </div>
+
+    <script>
+        const CORRECT_PASSWORD = "102030";
+        let passwordEntered = false;
+
+        // Loop para pedir a senha até que seja correta
+        while (!passwordEntered) {
+            const userInput = prompt("Por favor, digite a senha para acessar esta página:");
+
+            if (userInput === CORRECT_PASSWORD) {
+                passwordEntered = true;
+                alert("Senha correta! Bem-vindo.");
+                document.getElementById('protectedContent').style.display = 'block'; // Mostra o conteúdo
+            } else {
+                alert("Senha incorreta. Tente novamente.");
+            }
+        }
+    </script>
+
+</body>
+</html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
