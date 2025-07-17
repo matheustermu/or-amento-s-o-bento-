@@ -1,36 +1,5 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<body>
-
-    <div class="content" id="protectedContent">
-        <h1>Bem-vindo à Página Protegida!</h1>
-        <p>Este é o conteúdo que só pode ser acessado após a digitação da senha correta.</p>
-        <p>Você pode colocar aqui qualquer informação, links ou ferramentas que deseja proteger.</p>
-        <div class="footer">
-            <p>Conteúdo exclusivo do Gerador de Orçamento.</p>
-        </div>
-    </div>
-
-    <script>
-        const CORRECT_PASSWORD = "102030";
-        let passwordEntered = false;
-
-        // Loop para pedir a senha até que seja correta
-        while (!passwordEntered) {
-            const userInput = prompt("Por favor, digite a senha para acessar esta página:");
-
-            if (userInput === CORRECT_PASSWORD) {
-                passwordEntered = true;
-                alert("Senha correta! Bem-vindo.");
-                document.getElementById('protectedContent').style.display = 'block'; // Mostra o conteúdo
-            } else {
-                alert("Senha incorreta. Tente novamente.");
-            }
-        }
-    </script>
-
-</body>
-</html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
