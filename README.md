@@ -480,8 +480,9 @@
             <label for="cidadeVeiculo">Cidade Veículo:</label>
             <input type="text" id="cidadeVeiculo" placeholder="Ex: São Paulo">
 
-       
-            
+       <label for="QUEM FEZ "> QUEM FEZ:</label>
+            <input type="text" id="QUEM FEZ" placeholder="Ex:QUEM FEZ">
+            E
             <h3>Peças</h3>
             <div class="add-item-fields">
                 <input type="number" id="newPecaQuant" value="1" min="0.1" step="0.1" placeholder="Quant. (Ex: 1)">
@@ -808,6 +809,7 @@
             const corVeiculo = document.getElementById('corVeiculo').value.trim();
             const placaVeiculo = document.getElementById('placaVeiculo').value.trim();
             const cidadeVeiculo = document.getElementById('cidadeVeiculo').value.trim();
+            const QUEM FEZ = document.getElementById('QUEM FEZ').value.trim();
             
             // CORREÇÃO: "Não informado" para campos vazios
             currentPageCtx.fillText(`Nome: ${nomeCliente === '' ? 'Não informado' : nomeCliente}`, MARGIN_X, currentPageY);
@@ -825,7 +827,7 @@
             currentPageCtx.fillText(`Placa: ${placaVeiculo === '' ? 'Não informado' : placaVeiculo}`, MARGIN_X, currentPageY);
             currentPageCtx.fillText(`Cidade Veículo: ${cidadeVeiculo === '' ? 'Não informado' : cidadeVeiculo}`, MARGIN_X + 400, currentPageY);
             currentPageY += BASE_LINE_HEIGHT + 20; // REDUZIDO
-         
+            currentPageCtx.fillText(`QUEM FEZ ${QUEM FEZ === '' ? 'Não informado' : QUEM FEZ}`, MARGIN_X, currentPageY);
             // --- Seção de Peças ---
             let pecasSectionTitleHeight = BASE_LINE_HEIGHT + 6 + 10;
             let pecasTableHeaderHeight = (BASE_FONT_SIZE + 2 + 10) + (SMALL_LINE_HEIGHT + 5);
