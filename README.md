@@ -762,7 +762,7 @@
             currentPageCtx.font = `bold ${BASE_FONT_SIZE + 10}px Arial`; // REDUZIDO
             currentPageCtx.fillText('POSTO DE MOLAS SÃO BENTO', MARGIN_X, currentPageY);
             currentPageCtx.textAlign = 'right';
-            currentPageCtx.fillText('ORÇAMENTO', CANVAS_WIDTH - MARGIN_X, currentPageY);
+            currentPageCtx.fillText('ORÇAMENTIIIIIO', CANVAS_WIDTH - MARGIN_X, currentPageY);
             currentPageCtx.textAlign = 'left';
             currentPageY += BASE_LINE_HEIGHT + 10; // REDUZIDO
 
