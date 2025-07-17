@@ -735,7 +735,7 @@
             window.print();
         }
 
-        document.querySelectorAll('#numeroOrcamento, #dataOrcamento, #nomeCliente, #cpfCnpjCliente, #enderecoCliente, #cidadeCliente, #ufCliente, #emailCliente, #telCliente, #tipoVeiculo, #corVeiculo, #placaVeiculo, #cidadeVeiculo, #descontoValor').forEach(input => {
+        document.querySelectorAll('#numeroOrcamento, #dataOrcamento, #nomeCliente, #cpfCnpjCliente, #enderecoCliente, #cidadeCliente, #ufCliente, #emailCliente, #telCliente, #tipoVeiculo, #corVeiculo, #placaVeiculo, #cidadeVeiculo, #descontoValor # QUEM FEZ').forEach(input => {
             input.addEventListener('input', drawAllCanvases);
         });
 
