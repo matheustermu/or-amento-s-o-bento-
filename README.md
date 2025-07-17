@@ -480,6 +480,10 @@
             <label for="cidadeVeiculo">Cidade Veículo:</label>
             <input type="text" id="cidadeVeiculo" placeholder="Ex: São Paulo">
 
+            <label for="QUEM FEZ">QUEM FEZ:</label>
+            <input type="text" id="QUEM FEZ" placeholder="Ex: AURI E EZEQUIEL ">
+
+            
             <h3>Peças</h3>
             <div class="add-item-fields">
                 <input type="number" id="newPecaQuant" value="1" min="0.1" step="0.1" placeholder="Quant. (Ex: 1)">
