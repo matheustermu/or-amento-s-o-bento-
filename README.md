@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -45,12 +45,8 @@
 </head>
 <body>
 
-    <div class="content" id="protectedContent">
-        <h1>Bem-vindo à Página Protegida!</h1>
-        <p>Este é o conteúdo que só pode ser acessado após a digitação da senha correta.</p>
-        <p>Você pode colocar aqui qualquer informação, links ou ferramentas que deseja proteger.</p>
-        <div class="footer">
-            <p>Conteúdo exclusivo do Gerador de Orçamento.</p>
+   
+        <h1</p>
         </div>
     </div>
 
