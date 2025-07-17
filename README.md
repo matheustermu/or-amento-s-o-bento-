@@ -809,8 +809,7 @@
             const corVeiculo = document.getElementById('corVeiculo').value.trim();
             const placaVeiculo = document.getElementById('placaVeiculo').value.trim();
             const cidadeVeiculo = document.getElementById('cidadeVeiculo').value.trim();
-            const QUEM FEZ = document.getElementById('QUEM FEZ').value.trim();
-            
+           
             // CORREÇÃO: "Não informado" para campos vazios
             currentPageCtx.fillText(`Nome: ${nomeCliente === '' ? 'Não informado' : nomeCliente}`, MARGIN_X, currentPageY);
             currentPageCtx.fillText(`CPF/CNPJ: ${cpfCnpjCliente === '' ? 'Não informado' : cpfCnpjCliente}`, MARGIN_X + 400, currentPageY);
@@ -827,7 +826,7 @@
             currentPageCtx.fillText(`Placa: ${placaVeiculo === '' ? 'Não informado' : placaVeiculo}`, MARGIN_X, currentPageY);
             currentPageCtx.fillText(`Cidade Veículo: ${cidadeVeiculo === '' ? 'Não informado' : cidadeVeiculo}`, MARGIN_X + 400, currentPageY);
             currentPageY += BASE_LINE_HEIGHT + 20; // REDUZIDO
-            currentPageCtx.fillText(`QUEM FEZ ${QUEM FEZ === '' ? 'Não informado' : QUEM FEZ}`, MARGIN_X, currentPageY);
+          
             // --- Seção de Peças ---
             let pecasSectionTitleHeight = BASE_LINE_HEIGHT + 6 + 10;
             let pecasTableHeaderHeight = (BASE_FONT_SIZE + 2 + 10) + (SMALL_LINE_HEIGHT + 5);
