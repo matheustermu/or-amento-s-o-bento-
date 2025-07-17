@@ -480,9 +480,7 @@
             <label for="cidadeVeiculo">Cidade Veículo:</label>
             <input type="text" id="cidadeVeiculo" placeholder="Ex: São Paulo">
 
-            <label for="QUEM FEZ">QUEM FEZ:</label>
-            <input type="text" id="QUEM FEZ" placeholder="Ex: AURI E EZEQUIEL ">
-
+       
             
             <h3>Peças</h3>
             <div class="add-item-fields">
