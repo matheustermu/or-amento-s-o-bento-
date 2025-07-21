@@ -671,7 +671,7 @@
             const day = String(today.getDate()).padStart(2, '0');
             const month = String(today.getMonth() + 1).padStart(2, '0');
             const year = today.getFullYear();
-            document.getElementById('dataOrcamento').value = ${year}-${month}-${day};
+            document.getElementById('dataOrcamento').value = `${year}-${month}-${day}`;
 
             renderPecas();
             renderServicos();
@@ -686,22 +686,22 @@
             startNewPage(); // Inicia a primeira página
 
             // --- Cabeçalho da Empresa ---
-            currentPageCtx.font = bold ${BASE_FONT_SIZE + 10}px Arial; // REDUZIDO
+            currentPageCtx.font = `bold ${BASE_FONT_SIZE + 10}px Arial`; // REDUZIDO
             currentPageCtx.fillText('POSTO DE MOLAS SÃO BENTO', MARGIN_X, currentPageY);
             currentPageCtx.textAlign = 'right';
             currentPageCtx.fillText('ORÇAMENTO', CANVAS_WIDTH - MARGIN_X, currentPageY);
             currentPageCtx.textAlign = 'left';
             currentPageY += BASE_LINE_HEIGHT + 10; // REDUZIDO
 
-            currentPageCtx.font = bold ${BASE_FONT_SIZE + 6}px Arial; // REDUZIDO
+            currentPageCtx.font = `bold ${BASE_FONT_SIZE + 6}px Arial`; // REDUZIDO
             currentPageCtx.fillText('PEÇAS E SERVIÇOS', MARGIN_X, currentPageY);
             currentPageCtx.textAlign = 'right';
             const numeroOrcamento = document.getElementById('numeroOrcamento').value.trim();
-            currentPageCtx.fillText(Nº ${numeroOrcamento === '' ? 'Não informado' : numeroOrcamento}, CANVAS_WIDTH - MARGIN_X, currentPageY); // CORREÇÃO: "Não informado"
+            currentPageCtx.fillText(`Nº ${numeroOrcamento === '' ? 'Não informado' : numeroOrcamento}`, CANVAS_WIDTH - MARGIN_X, currentPageY); // CORREÇÃO: "Não informado"
             currentPageCtx.textAlign = 'left';
             currentPageY += BASE_LINE_HEIGHT + 20; // REDUZIDO
 
-            currentPageCtx.font = ${BASE_FONT_SIZE - 2}px Arial; // REDUZIDO
+            currentPageCtx.font = `${BASE_FONT_SIZE - 2}px Arial`; // REDUZIDO
             currentPageCtx.fillText('Suspensão de Caminhão e Caminhonete', MARGIN_X, currentPageY);
             currentPageY += SMALL_LINE_HEIGHT; // REDUZIDO
             currentPageCtx.fillText('Alinhamento e Balanceamento - Suspensão a Ar', MARGIN_X, currentPageY);
@@ -715,7 +715,7 @@
             currentPageY += BASE_LINE_HEIGHT + 20; // REDUZIDO
 
             // --- Dados do Cliente e Veículo ---
-            currentPageCtx.font = bold ${BASE_FONT_SIZE + 2}px Arial; // REDUZIDO
+            currentPageCtx.font = `bold ${BASE_FONT_SIZE + 2}px Arial`; // REDUZIDO
             let clientVehicleSectionHeight = (BASE_LINE_HEIGHT + 10) + (SMALL_LINE_HEIGHT * 5) + (BASE_LINE_HEIGHT + 20); // Título + 5 linhas de dados + espaçamento final
 
             if (currentPageY + clientVehicleSectionHeight > (CANVAS_HEIGHT - MARGIN_BOTTOM_PAGE)) {
@@ -724,7 +724,7 @@
 
             currentPageCtx.fillText('DADOS DO CLIENTE E VEÍCULO', MARGIN_X, currentPageY);
             currentPageY += BASE_LINE_HEIGHT + 10; // REDUZIDO
-            currentPageCtx.font = ${BASE_FONT_SIZE - 2}px Arial; // REDUZIDO
+            currentPageCtx.font = `${BASE_FONT_SIZE - 2}px Arial`; // REDUZIDO
 
             const nomeCliente = document.getElementById('nomeCliente').value.trim();
             const cpfCnpjCliente = document.getElementById('cpfCnpjCliente').value.trim();
@@ -739,20 +739,20 @@
             const cidadeVeiculo = document.getElementById('cidadeVeiculo').value.trim();
 
             // CORREÇÃO: "Não informado" para campos vazios
-            currentPageCtx.fillText(Nome: ${nomeCliente === '' ? 'Não informado' : nomeCliente}, MARGIN_X, currentPageY);
-            currentPageCtx.fillText(CPF/CNPJ: ${cpfCnpjCliente === '' ? 'Não informado' : cpfCnpjCliente}, MARGIN_X + 400, currentPageY);
+            currentPageCtx.fillText(`Nome: ${nomeCliente === '' ? 'Não informado' : nomeCliente}`, MARGIN_X, currentPageY);
+            currentPageCtx.fillText(`CPF/CNPJ: ${cpfCnpjCliente === '' ? 'Não informado' : cpfCnpjCliente}`, MARGIN_X + 400, currentPageY);
             currentPageY += SMALL_LINE_HEIGHT; // REDUZIDO
-            currentPageCtx.fillText(Endereço: ${enderecoCliente === '' ? 'Não informado' : enderecoCliente}, MARGIN_X, currentPageY);
-            currentPageCtx.fillText(Cidade/UF: ${cidadeCliente === '' ? 'Não informado' : cidadeCliente}/${ufCliente === '' ? 'Não informado' : ufCliente}, MARGIN_X + 400, currentPageY);
+            currentPageCtx.fillText(`Endereço: ${enderecoCliente === '' ? 'Não informado' : enderecoCliente}`, MARGIN_X, currentPageY);
+            currentPageCtx.fillText(`Cidade/UF: ${cidadeCliente === '' ? 'Não informado' : cidadeCliente}/${ufCliente === '' ? 'Não informado' : ufCliente}`, MARGIN_X + 400, currentPageY);
             currentPageY += SMALL_LINE_HEIGHT; // REDUZIDO
-            currentPageCtx.fillText(E-mail: ${emailCliente === '' ? 'Não informado' : emailCliente}, MARGIN_X, currentPageY);
-            currentPageCtx.fillText(Telefone: ${telCliente === '' ? 'Não informado' : telCliente}, MARGIN_X + 400, currentPageY);
+            currentPageCtx.fillText(`E-mail: ${emailCliente === '' ? 'Não informado' : emailCliente}`, MARGIN_X, currentPageY);
+            currentPageCtx.fillText(`Telefone: ${telCliente === '' ? 'Não informado' : telCliente}`, MARGIN_X + 400, currentPageY);
             currentPageY += SMALL_LINE_HEIGHT; // REDUZIDO
-            currentPageCtx.fillText(Veículo: ${tipoVeiculo === '' ? 'Não informado' : tipoVeiculo}, MARGIN_X, currentPageY);
-            currentPageCtx.fillText(Cor: ${corVeiculo === '' ? 'Não informado' : corVeiculo}, MARGIN_X + 400, currentPageY);
+            currentPageCtx.fillText(`Veículo: ${tipoVeiculo === '' ? 'Não informado' : tipoVeiculo}`, MARGIN_X, currentPageY);
+            currentPageCtx.fillText(`Cor: ${corVeiculo === '' ? 'Não informado' : corVeiculo}`, MARGIN_X + 400, currentPageY);
             currentPageY += SMALL_LINE_HEIGHT; // REDUZIDO
-            currentPageCtx.fillText(Placa: ${placaVeiculo === '' ? 'Não informado' : placaVeiculo}, MARGIN_X, currentPageY);
-            currentPageCtx.fillText(Cidade Veículo: ${cidadeVeiculo === '' ? 'Não informado' : cidadeVeiculo}, MARGIN_X + 400, currentPageY);
+            currentPageCtx.fillText(`Placa: ${placaVeiculo === '' ? 'Não informado' : placaVeiculo}`, MARGIN_X, currentPageY);
+            currentPageCtx.fillText(`Cidade Veículo: ${cidadeVeiculo === '' ? 'Não informado' : cidadeVeiculo}`, MARGIN_X + 400, currentPageY);
             currentPageY += BASE_LINE_HEIGHT + 20; // REDUZIDO
 
             // --- Seção de Peças ---
@@ -763,13 +763,13 @@
                 startNewPage();
             }
 
-            currentPageCtx.font = bold ${BASE_FONT_SIZE + 4}px Arial; // REDUZIDO
+            currentPageCtx.font = `bold ${BASE_FONT_SIZE + 4}px Arial`; // REDUZIDO
             currentPageCtx.textAlign = 'center';
             currentPageCtx.fillText('PEÇAS', CANVAS_WIDTH / 2, currentPageY);
             currentPageCtx.textAlign = 'left';
             currentPageY += BASE_LINE_HEIGHT + 10; // REDUZIDO
 
-            currentPageCtx.font = bold ${BASE_FONT_SIZE}px Arial; // REDUZIDO
+            currentPageCtx.font = `bold ${BASE_FONT_SIZE}px Arial`; // REDUZIDO
             currentPageCtx.fillText('QUANT.', MARGIN_X, currentPageY);
             currentPageCtx.fillText('UNID.', MARGIN_X + 100, currentPageY); // Ajustado X
             currentPageCtx.fillText('DESCRIÇÃO', MARGIN_X + 180, currentPageY); // Ajustado X
@@ -784,7 +784,7 @@
             currentPageCtx.stroke();
             currentPageY += SMALL_LINE_HEIGHT + 5; // REDUZIDO
 
-            currentPageCtx.font = ${BASE_FONT_SIZE - 2}px Arial; // REDUZIDO
+            currentPageCtx.font = `${BASE_FONT_SIZE - 2}px Arial`; // REDUZIDO
             initialPecas.forEach(item => {
                 const itemTotal = item.quant * item.precoUnit;
 
@@ -793,13 +793,13 @@
                 if (currentPageY + requiredHeight + (SMALL_LINE_HEIGHT * 1) > (CANVAS_HEIGHT - MARGIN_BOTTOM_PAGE)) {
                     startNewPage();
                     // Redesenha cabeçalho de peças na nova página
-                    currentPageCtx.font = bold ${BASE_FONT_SIZE + 4}px Arial;
+                    currentPageCtx.font = `bold ${BASE_FONT_SIZE + 4}px Arial`;
                     currentPageCtx.textAlign = 'center';
                     currentPageCtx.fillText('PEÇAS (continuação)', CANVAS_WIDTH / 2, currentPageY);
                     currentPageCtx.textAlign = 'left';
                     currentPageY += BASE_LINE_HEIGHT + 10;
 
-                    currentPageCtx.font = bold ${BASE_FONT_SIZE}px Arial;
+                    currentPageCtx.font = `bold ${BASE_FONT_SIZE}px Arial`;
                     currentPageCtx.fillText('QUANT.', MARGIN_X, currentPageY);
                     currentPageCtx.fillText('UNID.', MARGIN_X + 100, currentPageY);
                     currentPageCtx.fillText('DESCRIÇÃO', MARGIN_X + 180, currentPageY);
@@ -813,7 +813,7 @@
                     currentPageCtx.lineTo(CANVAS_WIDTH - MARGIN_X, currentPageY);
                     currentPageCtx.stroke();
                     currentPageY += SMALL_LINE_HEIGHT + 5;
-                    currentPageCtx.font = ${BASE_FONT_SIZE - 2}px Arial;
+                    currentPageCtx.font = `${BASE_FONT_SIZE - 2}px Arial`;
                 }
 
                 currentPageCtx.fillText(item.quant.toFixed(2), MARGIN_X, currentPageY);
@@ -835,13 +835,13 @@
                 startNewPage();
             }
 
-            currentPageCtx.font = bold ${BASE_FONT_SIZE + 4}px Arial; // REDUZIDO
+            currentPageCtx.font = `bold ${BASE_FONT_SIZE + 4}px Arial`; // REDUZIDO
             currentPageCtx.textAlign = 'center';
             currentPageCtx.fillText('SERVIÇOS', CANVAS_WIDTH / 2, currentPageY);
             currentPageCtx.textAlign = 'left';
             currentPageY += BASE_LINE_HEIGHT + 10; // REDUZIDO
 
-            currentPageCtx.font = bold ${BASE_FONT_SIZE}px Arial; // REDUZIDO
+            currentPageCtx.font = `bold ${BASE_FONT_SIZE}px Arial`; // REDUZIDO
             currentPageCtx.fillText('QUANT.', MARGIN_X, currentPageY);
             currentPageCtx.fillText('DESCRIÇÃO', MARGIN_X + 180, currentPageY); // Ajustado X
             currentPageCtx.textAlign = 'right';
@@ -855,7 +855,7 @@
             currentPageCtx.stroke();
             currentPageY += SMALL_LINE_HEIGHT + 5; // REDUZIDO
 
-            currentPageCtx.font = ${BASE_FONT_SIZE - 2}px Arial; // REDUZIDO
+            currentPageCtx.font = `${BASE_FONT_SIZE - 2}px Arial`; // REDUZIDO
             initialServicos.forEach(item => {
                 const itemTotal = item.quant * item.preco;
                 const requiredHeight = measureWrappedTextHeight(currentPageCtx, item.produto, 450, SMALL_LINE_HEIGHT); // REDUZIDO MAXWIDTH
@@ -863,13 +863,13 @@
                 if (currentPageY + requiredHeight + (SMALL_LINE_HEIGHT * 1) > (CANVAS_HEIGHT - MARGIN_BOTTOM_PAGE)) {
                     startNewPage();
                     // Redesenha cabeçalho de serviços na nova página
-                    currentPageCtx.font = bold ${BASE_FONT_SIZE + 4}px Arial;
+                    currentPageCtx.font = `bold ${BASE_FONT_SIZE + 4}px Arial`;
                     currentPageCtx.textAlign = 'center';
                     currentPageCtx.fillText('SERVIÇOS (continuação)', CANVAS_WIDTH / 2, currentPageY);
                     currentPageCtx.textAlign = 'left';
                     currentPageY += BASE_LINE_HEIGHT + 10;
 
-                    currentPageCtx.font = bold ${BASE_FONT_SIZE}px Arial;
+                    currentPageCtx.font = `bold ${BASE_FONT_SIZE}px Arial`;
                     currentPageCtx.fillText('QUANT.', MARGIN_X, currentPageY);
                     currentPageCtx.fillText('DESCRIÇÃO', MARGIN_X + 180, currentPageY);
                     currentPageCtx.textAlign = 'right';
@@ -882,7 +882,7 @@
                     currentPageCtx.lineTo(CANVAS_WIDTH - MARGIN_X, currentPageY);
                     currentPageCtx.stroke();
                     currentPageY += SMALL_LINE_HEIGHT + 5;
-                    currentPageCtx.font = ${BASE_FONT_SIZE - 2}px Arial;
+                    currentPageCtx.font = `${BASE_FONT_SIZE - 2}px Arial`;
                 }
 
                 currentPageCtx.fillText(item.quant.toFixed(2), MARGIN_X, currentPageY);
@@ -907,7 +907,7 @@
             const desconto = parseFloat(document.getElementById('descontoValor').value) || 0;
             const totalGeral = totalPecas + totalServicos - desconto;
 
-            currentPageCtx.font = bold ${BASE_FONT_SIZE + 4}px Arial; // REDUZIDO
+            currentPageCtx.font = `bold ${BASE_FONT_SIZE + 4}px Arial`; // REDUZIDO
             currentPageCtx.textAlign = 'right';
             currentPageCtx.fillText('TOTAL DE PEÇAS:', CANVAS_WIDTH - MARGIN_X - 300, currentPageY);
             currentPageCtx.fillText(formatCurrency(totalPecas), CANVAS_WIDTH - MARGIN_X, currentPageY);
@@ -921,16 +921,16 @@
             currentPageCtx.fillText(formatCurrency(desconto), CANVAS_WIDTH - MARGIN_X, currentPageY);
             currentPageY += SMALL_LINE_HEIGHT + 8; // REDUZIDO
 
-            currentPageCtx.font = bold ${BASE_FONT_SIZE + 8}px Arial; // REDUZIDO
+            currentPageCtx.font = `bold ${BASE_FONT_SIZE + 8}px Arial`; // REDUZIDO
             currentPageCtx.fillText('TOTAL GERAL:', CANVAS_WIDTH - MARGIN_X - 300, currentPageY);
             currentPageCtx.fillText(formatCurrency(totalGeral), CANVAS_WIDTH - MARGIN_X, currentPageY);
             currentPageY += BASE_LINE_HEIGHT + 30; // REDUZIDO
 
-            currentPageCtx.font = ${BASE_FONT_SIZE}px Arial; // REDUZIDO
+            currentPageCtx.font = `${BASE_FONT_SIZE}px Arial`; // REDUZIDO
             currentPageCtx.textAlign = 'left';
             const dataOrcamento = document.getElementById('dataOrcamento').value;
             const dataFormatada = dataOrcamento ? new Date(dataOrcamento).toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Não informado'; // CORREÇÃO: "Não informado"
-            currentPageCtx.fillText(Ponta Grossa, ${dataFormatada}, MARGIN_X, currentPageY);
+            currentPageCtx.fillText(`Ponta Grossa, ${dataFormatada}`, MARGIN_X, currentPageY);
             currentPageY += BASE_LINE_HEIGHT + 60; // REDUZIDO
 
             currentPageCtx.beginPath();
@@ -938,7 +938,7 @@
             currentPageCtx.lineTo(CANVAS_WIDTH - MARGIN_X - 150, currentPageY); // Ajustado X
             currentPageCtx.stroke();
             currentPageY += 20; // REDUZIDO
-            currentPageCtx.font = ${BASE_FONT_SIZE}px Arial; // REDUZIDO
+            currentPageCtx.font = `${BASE_FONT_SIZE}px Arial`; // REDUZIDO
             currentPageCtx.textAlign = 'center';
             currentPageCtx.fillText('Assinatura do Responsável', CANVAS_WIDTH / 2, currentPageY);
             currentPageCtx.textAlign = 'left';
